@@ -33,6 +33,18 @@ const renderComponent = (props: ComponentProps<typeof UeCauseOfDeath>) => {
 }
 
 describe('Cause of death component', () => {
+  let modalRoot: HTMLDivElement
+
+  beforeEach(() => {
+    modalRoot = document.createElement('div')
+    modalRoot.setAttribute('id', 'modalRoot')
+    document.body.appendChild(modalRoot)
+  })
+
+  afterEach(() => {
+    document.body.removeChild(modalRoot)
+  })
+
   it('renders without crashing', () => {
     expect(() => renderComponent({ disabled: false, question })).not.toThrow()
   })
@@ -86,5 +98,22 @@ describe('Cause of death component', () => {
     const input = screen.getByLabelText('Ungefärlig debut')
     await userEvent.type(input, inputDate)
     await expect(input).toHaveValue(expected)
+  })
+
+  it('should remove unsupported characters and show the warning InfoBox for description field', async () => {
+    renderComponent({ disabled: false, question })
+    const input = screen.getByLabelText('Beskrivning')
+    await userEvent.type(input, 'Beskrivning 😀')
+    expect(screen.getByText(/Tecken som inte stöds/, { exact: false })).toBeInTheDocument()
+  })
+
+  it('should hide the warning InfoBox when the description field is cleared', async () => {
+    renderComponent({ disabled: false, question })
+    const input = screen.getByLabelText('Beskrivning')
+    await userEvent.type(input, 'Beskrivning 😀')
+    expect(screen.getByText(/Tecken som inte stöds/, { exact: false })).toBeInTheDocument()
+
+    await userEvent.clear(input)
+    expect(screen.queryByText(/Tecken som inte stöds/, { exact: false })).not.toBeInTheDocument()
   })
 })

@@ -3,6 +3,8 @@ import styled, { css } from 'styled-components'
 import Typeahead from '../../../../components/Inputs/Typeahead'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import type { ValidationError, ValueDiagnosis } from '../../../../types'
+import InvalidCharactersInfoBox from '../InvalidCharactersInfoBox'
+import useIso8859Sanitization from '../hooks/useIso8859Sanitization'
 import { getDiagnosisItemText, getDiagnosisParts, type useDiagnosisTypeahead } from './hooks/useDiagnosisTypeahead'
 
 const DiagnosisWrapper = styled.div`
@@ -55,6 +57,7 @@ export function UeDiagnosis({
   onChange: (value: ValueDiagnosis) => void
 } & ReturnType<typeof useDiagnosisTypeahead>) {
   const [{ code, description }, setValue] = useState(value)
+  const { sanitize, showWarning } = useIso8859Sanitization()
 
   const onDiagnosisSelected = (diagnosis: string) => {
     const { code, description } = getDiagnosisParts(diagnosis)
@@ -70,48 +73,51 @@ export function UeDiagnosis({
   }
 
   return (
-    <DiagnosisWrapper key={`${id}-wrapper`}>
-      <Typeahead
-        suggestions={suggestions}
-        css={codeAdditionalStyles}
-        placeholder="Kod"
-        data-testid={`${id}-code`}
-        disabled={disabled}
-        hasValidationError={hasValidationError}
-        onSuggestionSelected={onDiagnosisSelected}
-        value={code}
-        onChange={(event) => {
-          const newCode = event.currentTarget.value
-          handleUpdate({ ...value, code: newCode, description: newCode === '' ? '' : description }, newCode === '')
-          updateTypeaheadResult(newCode.toUpperCase(), true, selectedCodeSystem)
-        }}
-        onBlur={() => setValue(value)}
-        onClose={() => resetDiagnosisTypeahead()}
-        moreResults={moreResults}
-      />
-      <DescriptionAdditional>
+    <>
+      <DiagnosisWrapper key={`${id}-wrapper`}>
         <Typeahead
           suggestions={suggestions}
-          placeholder="Diagnos"
-          data-testid={`${id}-diagnos`}
+          css={codeAdditionalStyles}
+          placeholder="Kod"
+          data-testid={`${id}-code`}
           disabled={disabled}
           hasValidationError={hasValidationError}
           onSuggestionSelected={onDiagnosisSelected}
-          value={description}
+          value={code}
           onChange={(event) => {
-            const newDescription = event.currentTarget.value
-            handleUpdate({ ...value, code: newDescription === '' ? '' : code, description: newDescription })
-            updateTypeaheadResult(newDescription, false, selectedCodeSystem)
+            const newCode = event.currentTarget.value
+            handleUpdate({ ...value, code: newCode, description: newCode === '' ? '' : description }, newCode === '')
+            updateTypeaheadResult(newCode.toUpperCase(), true, selectedCodeSystem)
           }}
+          onBlur={() => setValue(value)}
           onClose={() => resetDiagnosisTypeahead()}
-          getItemText={getDiagnosisItemText}
           moreResults={moreResults}
-          limit={limit}
         />
-      </DescriptionAdditional>
-      <ValidationErrorWrapper>
-        <QuestionValidationTexts validationErrors={validationErrors} />
-      </ValidationErrorWrapper>
-    </DiagnosisWrapper>
+        <DescriptionAdditional>
+          <Typeahead
+            suggestions={suggestions}
+            placeholder="Diagnos"
+            data-testid={`${id}-diagnos`}
+            disabled={disabled}
+            hasValidationError={hasValidationError}
+            onSuggestionSelected={onDiagnosisSelected}
+            value={description}
+            onChange={(event) => {
+              const sanitized = sanitize(event.currentTarget.value)
+              handleUpdate({ ...value, code: sanitized === '' ? '' : code, description: sanitized })
+              updateTypeaheadResult(sanitized, false, selectedCodeSystem)
+            }}
+            onClose={() => resetDiagnosisTypeahead()}
+            getItemText={getDiagnosisItemText}
+            moreResults={moreResults}
+            limit={limit}
+          />
+        </DescriptionAdditional>
+        <ValidationErrorWrapper>
+          <QuestionValidationTexts validationErrors={validationErrors} />
+        </ValidationErrorWrapper>
+      </DiagnosisWrapper>
+      <InvalidCharactersInfoBox visible={showWarning} />
+    </>
   )
 }

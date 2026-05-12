@@ -7,6 +7,8 @@ import { getVisibleValidationErrors } from '../../../../store/certificate/certif
 import { useAppDispatch, useAppSelector } from '../../../../store/store'
 import type { CertificateDataElement, ConfigUeTextField, TextValidation, ValueText } from '../../../../types'
 import { CertificateDataValidationType, CertificateDataValueType } from '../../../../types'
+import InvalidCharactersInfoBox from '../InvalidCharactersInfoBox'
+import useIso8859Sanitization from '../hooks/useIso8859Sanitization'
 
 interface Props {
   question: CertificateDataElement
@@ -22,6 +24,7 @@ const UeTextField = ({ question, disabled }: Props) => {
   const textValidation = question.validation
     ? (question.validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
     : undefined
+  const { sanitize, showWarning } = useIso8859Sanitization()
 
   const dispatchEditDraft = useRef(
     debounce((question: CertificateDataElement, value: string) => {
@@ -31,8 +34,9 @@ const UeTextField = ({ question, disabled }: Props) => {
   ).current
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    setText(event.currentTarget.value)
-    dispatchEditDraft(question, event.currentTarget.value)
+    const sanitized = sanitize(event.currentTarget.value)
+    setText(sanitized)
+    dispatchEditDraft(question, sanitized)
   }
 
   return (
@@ -49,6 +53,9 @@ const UeTextField = ({ question, disabled }: Props) => {
           limit={textValidation ? textValidation.limit : 100}
         />
         <QuestionValidationTexts validationErrors={validationErrors} />
+      </div>
+      <div className="iu-grid-span-12">
+        <InvalidCharactersInfoBox visible={showWarning} />
       </div>
     </div>
   )

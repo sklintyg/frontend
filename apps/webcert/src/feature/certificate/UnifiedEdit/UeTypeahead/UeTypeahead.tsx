@@ -25,7 +25,6 @@ const UeTypeahead = ({ question, disabled }: Props) => {
   const textValidation = question.validation
     ? (question.validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
     : undefined
-
   const dispatchEditDraft = useRef(
     debounce((question: CertificateDataElement, value: string) => {
       const oldValue = question.value as ValueText
