@@ -8,7 +8,7 @@ export function ChartLegend({ data }: { data: GraphLegend[] }) {
     <div className="w-full text-sm text-on-background">
       {data.map(({ label, color }) => (
         <div key={label}>
-          <div className="mr-2 inline-block h-3 w-3 rounded-full " style={{ backgroundColor: color }} />
+          <div className="mr-2 inline-block h-3 w-3 rounded-full dark:outline dark:outline-1 dark:outline-white" style={{ backgroundColor: color }} />
           {label}
         </div>
       ))}

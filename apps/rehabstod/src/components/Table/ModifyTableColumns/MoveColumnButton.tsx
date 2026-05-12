@@ -19,8 +19,8 @@ export function MoveColumnButton({
         >
           {!disabled && (
             <>
-              {direction === 'left' && <Icon icon="arrow-left" className="m-auto inline-block" />}
-              {direction === 'right' && <Icon icon="arrow-right" className="m-auto inline-block" />}
+              {direction === 'left' && <Icon icon="arrow-up" className="m-auto inline-block" />}
+              {direction === 'right' && <Icon icon="arrow-down" className="m-auto inline-block" />}
             </>
           )}
         </button>

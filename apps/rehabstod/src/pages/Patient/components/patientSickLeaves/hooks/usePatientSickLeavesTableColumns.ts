@@ -49,7 +49,6 @@ export function usePatientSickLeavesTableColumns(): Column[] {
   return visibleColumns.map(({ name }) => ({
     name,
     width: getPatientSickLeaveColumnWidth(name),
-    sticky: name === PatientColumn.Intyg ? 'right' : undefined,
     sortable: name !== PatientColumn.Num,
   }))
 }
