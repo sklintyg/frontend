@@ -1,3 +1,4 @@
+import { Icon } from '@frontend/components'
 import { IDSLink } from '@inera/ids-react'
 import { useGetLinksQuery } from '../../../store/api'
 
@@ -11,7 +12,7 @@ export function ServiceLink({ mobile }: { mobile?: boolean }) {
         <IDSLink colorPreset={mobile ? undefined : 3} small underlined>
           <a href={links.ineraMainPage.url} target="_blank" rel="noreferrer">
             {links.ineraMainPage.text}
-            <span className="ids-icon-external-link-small ids-icon--text-end" />
+            <Icon icon="external-link-small" textEnd />
           </a>
         </IDSLink>
       )}{' '}

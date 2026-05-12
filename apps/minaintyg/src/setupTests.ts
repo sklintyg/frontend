@@ -15,6 +15,8 @@ window.scrollTo = vi.fn()
 
 beforeEach(() => {
   vi.spyOn(global.crypto, 'randomUUID').mockReturnValue('5f92e947-e2ee-4238-bf29-4cdc6b6c4b54')
+  // jsdom does not implement scrollIntoView, but @inera/ids-react calls it on dialog focus anchors.
+  Element.prototype.scrollIntoView = vi.fn()
 })
 
 // Establish API mocking before all tests.

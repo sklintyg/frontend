@@ -91,7 +91,7 @@ export function LayoutFooter() {
       }
       mobileLinks={
         <>
-          <DynamicLink link={links?.ineraBehandlingPersonuppgifter} colorPreset={3} />
+          <DynamicLink link={links?.ineraBehandlingPersonuppgifter} small colorPreset={3} />
           <TertiaryButton onClick={() => dispatch(updateShowCookieDialog(true))}>Hantering av kakor</TertiaryButton>
         </>
       }

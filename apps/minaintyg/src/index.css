@@ -5,6 +5,7 @@
 @tailwind utilities;
 
 :root {
+  --IDS-FONT-FAMILY-BASE: 'Open Sans', Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
   --font-family_1: 'Open Sans', Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
   --font-family_2: Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
 }
@@ -12,4 +13,50 @@
 body.ids {
   background-color: var(--ids-color-surface-background-default);
   color: var(--ids-color-surface-text-on-default);
+  font-family: 'Open Sans', Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
+}
+
+.ids-footer-1177 .ids-footer-1177__sub-footer-mobile:before {
+  font-size: 3.875rem;
+}
+
+body.ids .ids-header-1177 .ids-header-1177-nav-item a,
+body.ids .ids-header-1177 .ids-header-1177-avatar a,
+body.ids .ids-header-1177 .ids-mobile-menu a {
+  text-decoration: none !important;
+}
+
+body.ids .ids-header-1177 .ids-header-1177-avatar__menu-links a {
+  display: flex;
+  align-items: center;
+}
+
+body.ids .ids-header-1177 .ids-header-1177-avatar__menu-links a .ids-icon--text-start {
+  top: 0;
+}
+
+@media (max-width: 1024px) {
+  body.ids .ids-header-1177 .ids-mobile-menu,
+  body.ids .ids-footer-1177 .ids-mobile-menu {
+    /* Invert mobile block-link colors (text <-> background). */
+    --IDS-MOBILE-MENU-ITEM__COLOR: var(--ids-color-surface-background-elevated-1);
+    --IDS-MOBILE-MENU-ITEM--HOVER__COLOR: var(--ids-color-surface-background-elevated-1);
+    --IDS-MOBILE-MENU-ITEM__BACKGROUND-COLOR: var(--ids-palette-primary-40);
+    --IDS-MOBILE-MENU-ITEM__BEFORE-BACKGROUND-COLOR: var(--ids-palette-primary-40);
+    --IDS-MOBILE-MENU-ITEM__BEFORE-HOVER-BACKGROUND-COLOR: var(--ids-palette-primary-40);
+
+    --IDS-MOBILE-MENU-ITEM-SECONDARY__COLOR: var(--ids-color-surface-background-elevated-1);
+    --IDS-MOBILE-MENU-ITEM-SECONDARY__BACKGROUND-COLOR: var(--ids-palette-primary-40);
+    --IDS-MOBILE-MENU-ITEM-SECONDARY__BEFORE-BACKGROUND-COLOR: var(--ids-palette-primary-40);
+    --IDS-MOBILE-MENU-ITEM-SECONDARY__BEFORE-HOVER-BACKGROUND-COLOR: var(--ids-palette-primary-40);
+
+    --IDS-MOBILE-MENU-ITEM--L2__COLOR: var(--ids-color-surface-background-elevated-1);
+    --IDS-MOBILE-MENU-ITEM--L2__BACKGROUND-COLOR: var(--ids-palette-primary-40);
+    --IDS-MOBILE-MENU-ITEM--L2__BEFORE-BACKGROUND-COLOR: var(--ids-palette-primary-40);
+    --IDS-MOBILE-MENU-ITEM--L2__BEFORE-HOVER-BACKGROUND-COLOR: var(--ids-palette-primary-40);
+  }
+
+  .ids-footer-1177 .ids-footer-1177__mobile-menu {
+    padding-bottom: 0.01rem;
+  }
 }
