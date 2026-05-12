@@ -31,4 +31,3 @@ const useIso8859Sanitization = (): UseIso8859SanitizationResult => {
 }
 
 export default useIso8859Sanitization
-

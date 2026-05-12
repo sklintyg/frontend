@@ -75,47 +75,47 @@ export function UeDiagnosis({
   return (
     <>
       <DiagnosisWrapper key={`${id}-wrapper`}>
-      <Typeahead
-        suggestions={suggestions}
-        css={codeAdditionalStyles}
-        placeholder="Kod"
-        data-testid={`${id}-code`}
-        disabled={disabled}
-        hasValidationError={hasValidationError}
-        onSuggestionSelected={onDiagnosisSelected}
-        value={code}
-        onChange={(event) => {
-          const newCode = event.currentTarget.value
-          handleUpdate({ ...value, code: newCode, description: newCode === '' ? '' : description }, newCode === '')
-          updateTypeaheadResult(newCode.toUpperCase(), true, selectedCodeSystem)
-        }}
-        onBlur={() => setValue(value)}
-        onClose={() => resetDiagnosisTypeahead()}
-        moreResults={moreResults}
-      />
-      <DescriptionAdditional>
         <Typeahead
           suggestions={suggestions}
-          placeholder="Diagnos"
-          data-testid={`${id}-diagnos`}
+          css={codeAdditionalStyles}
+          placeholder="Kod"
+          data-testid={`${id}-code`}
           disabled={disabled}
           hasValidationError={hasValidationError}
           onSuggestionSelected={onDiagnosisSelected}
-          value={description}
+          value={code}
           onChange={(event) => {
-            const sanitized = sanitize(event.currentTarget.value)
-            handleUpdate({ ...value, code: sanitized === '' ? '' : code, description: sanitized })
-            updateTypeaheadResult(sanitized, false, selectedCodeSystem)
+            const newCode = event.currentTarget.value
+            handleUpdate({ ...value, code: newCode, description: newCode === '' ? '' : description }, newCode === '')
+            updateTypeaheadResult(newCode.toUpperCase(), true, selectedCodeSystem)
           }}
+          onBlur={() => setValue(value)}
           onClose={() => resetDiagnosisTypeahead()}
-          getItemText={getDiagnosisItemText}
           moreResults={moreResults}
-          limit={limit}
         />
-      </DescriptionAdditional>
-      <ValidationErrorWrapper>
-        <QuestionValidationTexts validationErrors={validationErrors} />
-      </ValidationErrorWrapper>
+        <DescriptionAdditional>
+          <Typeahead
+            suggestions={suggestions}
+            placeholder="Diagnos"
+            data-testid={`${id}-diagnos`}
+            disabled={disabled}
+            hasValidationError={hasValidationError}
+            onSuggestionSelected={onDiagnosisSelected}
+            value={description}
+            onChange={(event) => {
+              const sanitized = sanitize(event.currentTarget.value)
+              handleUpdate({ ...value, code: sanitized === '' ? '' : code, description: sanitized })
+              updateTypeaheadResult(sanitized, false, selectedCodeSystem)
+            }}
+            onClose={() => resetDiagnosisTypeahead()}
+            getItemText={getDiagnosisItemText}
+            moreResults={moreResults}
+            limit={limit}
+          />
+        </DescriptionAdditional>
+        <ValidationErrorWrapper>
+          <QuestionValidationTexts validationErrors={validationErrors} />
+        </ValidationErrorWrapper>
       </DiagnosisWrapper>
       <InvalidCharactersInfoBox visible={showWarning} />
     </>
