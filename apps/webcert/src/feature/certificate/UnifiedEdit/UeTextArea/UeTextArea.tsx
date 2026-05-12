@@ -24,7 +24,7 @@ const UeTextArea = ({ question, disabled }: Props) => {
   const textValidation = question.validation
     ? (question.validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
     : undefined
-  const { sanitize, resetWarning, showWarning } = useIso8859Sanitization()
+  const { sanitize, showWarning } = useIso8859Sanitization()
 
   const dispatchEditDraft = useRef(
     debounce((question: CertificateDataElement, value: string) => {
@@ -38,16 +38,7 @@ const UeTextArea = ({ question, disabled }: Props) => {
   }
 
   const handleChange: React.ChangeEventHandler<HTMLTextAreaElement> = (event) => {
-    const value = event.currentTarget.value
-    if (value === '') {
-      resetWarning()
-    }
-    setText(value)
-    dispatchEditDraft(question, value)
-  }
-
-  const handleBlur = () => {
-    const sanitized = sanitize(text ?? '')
+    const sanitized = sanitize(event.currentTarget.value)
     setText(sanitized)
     dispatchEditDraft(question, sanitized)
   }
@@ -61,7 +52,6 @@ const UeTextArea = ({ question, disabled }: Props) => {
         rows={6}
         hasValidationError={validationErrors.length > 0}
         onChange={handleChange}
-        onBlur={handleBlur}
         name={questionConfig.id}
         value={text === null ? '' : text}
         maxLength={textValidation ? textValidation.limit : 3500}

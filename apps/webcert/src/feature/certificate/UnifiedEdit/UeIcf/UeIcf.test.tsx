@@ -43,21 +43,19 @@ describe('UeIcf', () => {
 
     const input = screen.getByRole('textbox')
     await userEvent.type(input, 'Text 😀')
-    await userEvent.tab()
 
     expect(screen.getByText(/Tecken som inte stöds/, { exact: false })).toBeInTheDocument()
   })
 
-  it('should hide the warning InfoBox when the user starts editing again', async () => {
+  it('should hide the warning InfoBox when the field is cleared', async () => {
     const mockQuestion = fakeICFDataElement({ id: '1', value: { text: null } })['1']
     renderDefaultComponent({ question: mockQuestion, disabled: false })
 
     const input = screen.getByRole('textbox')
     await userEvent.type(input, 'Text 😀')
-    await userEvent.tab()
     expect(screen.getByText(/Tecken som inte stöds/, { exact: false })).toBeInTheDocument()
 
-    await userEvent.type(input, 'a')
+    await userEvent.clear(input)
     expect(screen.queryByText(/Tecken som inte stöds/, { exact: false })).not.toBeInTheDocument()
   })
 

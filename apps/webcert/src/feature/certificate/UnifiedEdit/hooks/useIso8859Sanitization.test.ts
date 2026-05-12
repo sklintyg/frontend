@@ -25,7 +25,7 @@ describe('useIso8859Sanitization', () => {
     expect(result.current.showWarning).toBe(false)
   })
 
-  it('should reset showWarning to false when resetWarning is called', () => {
+  it('should reset showWarning to false when the input is emptied', () => {
     const { result } = renderHook(() => useIso8859Sanitization())
     act(() => {
       result.current.sanitize('Hello 😀')
@@ -33,7 +33,7 @@ describe('useIso8859Sanitization', () => {
     expect(result.current.showWarning).toBe(true)
 
     act(() => {
-      result.current.resetWarning()
+      result.current.sanitize('')
     })
     expect(result.current.showWarning).toBe(false)
   })

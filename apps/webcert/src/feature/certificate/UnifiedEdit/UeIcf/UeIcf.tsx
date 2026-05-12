@@ -29,7 +29,7 @@ const UeIcf = ({ question, disabled }: Props) => {
   const [currentValue, setCurrentValue] = useState<ValueIcf>(question.value as ValueIcf)
   const textValidation = question.validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))
-  const { sanitize, resetWarning, showWarning } = useIso8859Sanitization()
+  const { sanitize, showWarning } = useIso8859Sanitization()
 
   const dispatchValue = useRef(debounce((value: ValueIcf) => dispatch(updateCertificateDataElement({ ...question, value })), 1000)).current
 
@@ -49,15 +49,7 @@ const UeIcf = ({ question, disabled }: Props) => {
   }, [currentValue.icfCodes, icfData, previousIcfCodes, updateValue])
 
   const handleTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const value = event.currentTarget.value
-    if (value === '') {
-      resetWarning()
-    }
-    updateValue({ text: value })
-  }
-
-  const handleTextBlur = () => {
-    const sanitized = sanitize(currentValue.text ?? '')
+    const sanitized = sanitize(event.currentTarget.value)
     updateValue({ text: sanitized })
   }
 
@@ -82,7 +74,6 @@ const UeIcf = ({ question, disabled }: Props) => {
         rows={6}
         hasValidationError={validationErrors.length > 0}
         onChange={handleTextChange}
-        onBlur={handleTextBlur}
         name={questionConfig.id}
         value={currentValue.text ?? ''}
         maxLength={textValidation ? textValidation.limit : 3500}
