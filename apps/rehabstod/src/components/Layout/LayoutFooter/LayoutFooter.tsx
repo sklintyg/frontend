@@ -1,18 +1,28 @@
-import { IDSFooter1177Admin, IDSLink, IDSMobileMenu, IDSMobileMenuItem } from '@inera/ids-react'
+import { IDSDarkmodeToggle, IDSFooter1177Admin, IDSLink, IDSMobileMenu, IDSMobileMenuItem } from '@inera/ids-react'
 import { TertiaryButton } from '@frontend/components'
 import { useGetLinksQuery } from '../../../store/api'
-import { useAppDispatch } from '../../../store/hooks'
+import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { updateShowCookieDialog } from '../../../store/slices/cookieDialog.slice'
+import { updateDarkMode } from '../../../store/slices/settings.slice'
 import { DynamicLink } from '../../DynamicLink/DynamicLink'
 import { ServiceLink } from './ServiceLink'
 
 export function LayoutFooter() {
   const { data: links } = useGetLinksQuery()
   const dispatch = useAppDispatch()
+  const darkMode = useAppSelector((state) => state.settings.darkMode)
 
   return (
     <IDSFooter1177Admin
       headline="Rehabstöd"
+      toggle={
+        <IDSDarkmodeToggle
+          checked={darkMode}
+          onChange={(e) => dispatch(updateDarkMode((e.target as HTMLInputElement).checked))}
+        >
+          Mörkt läge
+        </IDSDarkmodeToggle>
+      }
       col1={
         <>
           <IDSLink underlined block footer>
