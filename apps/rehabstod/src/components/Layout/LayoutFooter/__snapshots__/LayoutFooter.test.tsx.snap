@@ -46,7 +46,8 @@ exports[`Should render footer as expected 1`] = `
               >
                 <span
                   aria-hidden="true"
-                  class="ids-icon-arrow-right-small ids-icon--text-start mt-0"
+                  class="ids-icon-arrow-right-small ids-icon--text-start"
+                  style="top: 0px;"
                 />
                 ineraManualRehabstod
               </a>
@@ -59,7 +60,8 @@ exports[`Should render footer as expected 1`] = `
               >
                 <span
                   aria-hidden="true"
-                  class="ids-icon-arrow-right-small ids-icon--text-start mt-0"
+                  class="ids-icon-arrow-right-small ids-icon--text-start"
+                  style="top: 0px;"
                 />
                 ineraNationellKundservice
               </a>
@@ -75,7 +77,8 @@ exports[`Should render footer as expected 1`] = `
               >
                 <span
                   aria-hidden="true"
-                  class="ids-icon-arrow-right-small ids-icon--text-start mt-0"
+                  class="ids-icon-arrow-right-small ids-icon--text-start"
+                  style="top: 0px;"
                 />
                 Tillgänglighetsredogörelse
               </a>
