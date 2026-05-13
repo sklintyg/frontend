@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
 import Typeahead from '../../../../components/Inputs/Typeahead'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
@@ -56,8 +56,16 @@ export function UeDiagnosis({
   validationErrors: ValidationError[]
   onChange: (value: ValueDiagnosis) => void
 } & ReturnType<typeof useDiagnosisTypeahead>) {
-  const [{ code, description }, setValue] = useState(value)
-  const { sanitize, showWarning } = useIso8859Sanitization()
+  const rawInitialDesc = value.description ?? ''
+  const { sanitize, showWarning, sanitizedInitialValue: sanitizedInitialDesc } = useIso8859Sanitization(rawInitialDesc)
+  const [{ code, description }, setValue] = useState({ ...value, description: sanitizedInitialDesc })
+
+  useEffect(() => {
+    if (!disabled && sanitizedInitialDesc !== rawInitialDesc) {
+      onChange({ ...value, description: sanitizedInitialDesc })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const onDiagnosisSelected = (diagnosis: string) => {
     const { code, description } = getDiagnosisParts(diagnosis)

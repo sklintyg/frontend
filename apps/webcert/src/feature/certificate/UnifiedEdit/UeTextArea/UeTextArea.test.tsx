@@ -80,4 +80,20 @@ describe('UeTextArea', () => {
     await userEvent.clear(input)
     expect(screen.queryByText(/Tecken som inte stöds/, { exact: false })).not.toBeInTheDocument()
   })
+
+  it('should show warning and display sanitized text when prefilled with unsupported characters', () => {
+    const prefillQuestion = fakeTextAreaElement({ id: '1', value: { text: 'Prefill 😀' } })['1']
+    renderDefaultComponent({ question: prefillQuestion, disabled: false })
+
+    expect(screen.getByRole('textbox')).toHaveValue('Prefill ')
+    expect(screen.getByText(/Tecken som inte stöds/, { exact: false })).toBeInTheDocument()
+  })
+
+  it('should not show warning when prefilled with clean text', () => {
+    const cleanQuestion = fakeTextAreaElement({ id: '1', value: { text: 'Clean åäö' } })['1']
+    renderDefaultComponent({ question: cleanQuestion, disabled: false })
+
+    expect(screen.getByRole('textbox')).toHaveValue('Clean åäö')
+    expect(screen.queryByText(/Tecken som inte stöds/, { exact: false })).not.toBeInTheDocument()
+  })
 })

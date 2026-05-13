@@ -26,12 +26,20 @@ const UeIcf = ({ question, disabled }: Props) => {
   const icfData = useSelector(getIcfData((question.config as ConfigUeIcf).icfCodesPropertyName), isEqual)
   const previousIcfCodes = usePrevious(getIcfValueList(icfData))
   const questionConfig = question.config as ConfigUeIcf
-  const [currentValue, setCurrentValue] = useState<ValueIcf>(question.value as ValueIcf)
+  const rawInitialText = (question.value as ValueIcf).text ?? ''
   const textValidation = question.validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))
-  const { sanitize, showWarning } = useIso8859Sanitization()
+  const { sanitize, showWarning, sanitizedInitialValue } = useIso8859Sanitization(rawInitialText)
+  const [currentValue, setCurrentValue] = useState<ValueIcf>({ ...(question.value as ValueIcf), text: sanitizedInitialValue })
 
   const dispatchValue = useRef(debounce((value: ValueIcf) => dispatch(updateCertificateDataElement({ ...question, value })), 1000)).current
+
+  useEffect(() => {
+    if (!disabled && sanitizedInitialValue !== rawInitialText) {
+      dispatch(updateCertificateDataElement({ ...question, value: { ...(question.value as ValueIcf), text: sanitizedInitialValue } }))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const updateValue = useCallback(
     (value: Partial<ValueIcf>) => {
