@@ -33,7 +33,7 @@ const PatientInfoHeader = ({ patient }: Props) => {
           <h3 className="iu-mb-200">Patientuppgifter</h3>
           <div className="iu-flex">
             <h2>
-              {patient.fullName} - {patient.personId.id}
+              {patient.fullName || 'Namn okänt'} - {patient.personId.id}
             </h2>
             <ButtonWrapper>
               <CustomButton
