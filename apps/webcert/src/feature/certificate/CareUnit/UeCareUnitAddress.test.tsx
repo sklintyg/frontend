@@ -29,8 +29,17 @@ function renderComponent() {
 }
 
 describe('CareUnitAddress component', () => {
+  let modalRoot: HTMLDivElement
+
   beforeEach(() => {
     store.dispatch(resetCertificateState())
+    modalRoot = document.createElement('div')
+    modalRoot.setAttribute('id', 'modalRoot')
+    document.body.appendChild(modalRoot)
+  })
+
+  afterEach(() => {
+    document.body.removeChild(modalRoot)
   })
 
   it('display all input fields with labels, mandatory and no validation errors', (): void => {
@@ -125,5 +134,44 @@ describe('CareUnitAddress component', () => {
 
     await userEvent.type(phoneNumberInput, 'dfr2 gz6ij 2yw662 28jx6')
     await expect(phoneNumberInput).toHaveValue('262662286')
+  })
+
+  it('should remove unsupported characters and show the warning InfoBox for the address field', async () => {
+    store.dispatch(
+      updateCertificate(
+        fakeCertificate({
+          metadata: fakeCertificateMetaData({
+            unit: fakeUnit({ address: '' }),
+          }),
+          links: [fakeResourceLink({ type: ResourceLinkType.EDIT_CERTIFICATE })],
+        })
+      )
+    )
+    renderComponent()
+
+    const addressInput = screen.getByRole('textbox', { name: /postadress/i })
+    await userEvent.type(addressInput, 'Gatan 1 😀')
+    expect(screen.getByText(/Tecken som inte stöds/, { exact: false })).toBeInTheDocument()
+  })
+
+  it('should hide the warning InfoBox when the address field is cleared', async () => {
+    store.dispatch(
+      updateCertificate(
+        fakeCertificate({
+          metadata: fakeCertificateMetaData({
+            unit: fakeUnit({ address: '' }),
+          }),
+          links: [fakeResourceLink({ type: ResourceLinkType.EDIT_CERTIFICATE })],
+        })
+      )
+    )
+    renderComponent()
+
+    const addressInput = screen.getByRole('textbox', { name: /postadress/i })
+    await userEvent.type(addressInput, 'Gatan 1 😀')
+    expect(screen.getByText(/Tecken som inte stöds/, { exact: false })).toBeInTheDocument()
+
+    await userEvent.clear(addressInput)
+    expect(screen.queryByText(/Tecken som inte stöds/, { exact: false })).not.toBeInTheDocument()
   })
 })

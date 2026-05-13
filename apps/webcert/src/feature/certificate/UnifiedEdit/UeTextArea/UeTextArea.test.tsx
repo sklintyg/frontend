@@ -9,6 +9,7 @@ import UeTextArea from './UeTextArea'
 import { fakeTextAreaElement, fakeTextValidation } from '../../../../faker'
 
 let testStore: EnhancedStore
+let modalRoot: HTMLDivElement
 
 const renderDefaultComponent = (props: ComponentProps<typeof UeTextArea>) => {
   render(
@@ -21,6 +22,13 @@ const renderDefaultComponent = (props: ComponentProps<typeof UeTextArea>) => {
 describe('UeTextArea', () => {
   beforeEach(() => {
     testStore = configureApplicationStore([certificateMiddleware])
+    modalRoot = document.createElement('div')
+    modalRoot.setAttribute('id', 'modalRoot')
+    document.body.appendChild(modalRoot)
+  })
+
+  afterEach(() => {
+    document.body.removeChild(modalRoot)
   })
 
   it('renders a textarea which has correct value after typing in it', async () => {
@@ -49,5 +57,27 @@ describe('UeTextArea', () => {
     })['1']
     renderDefaultComponent({ question: mockQuestion, disabled: false })
     expect(screen.getByText('0 av 100 tecken', { exact: false })).toBeInTheDocument()
+  })
+
+  it('should remove unsupported characters and show the warning InfoBox', async () => {
+    const mockQuestion = fakeTextAreaElement({ id: '1', value: { text: null } })['1']
+    renderDefaultComponent({ question: mockQuestion, disabled: false })
+
+    const input = screen.getByRole('textbox')
+    await userEvent.type(input, 'Hello 😀')
+
+    expect(screen.getByText(/Tecken som inte stöds/, { exact: false })).toBeInTheDocument()
+  })
+
+  it('should hide the warning InfoBox when the field is cleared', async () => {
+    const mockQuestion = fakeTextAreaElement({ id: '1', value: { text: null } })['1']
+    renderDefaultComponent({ question: mockQuestion, disabled: false })
+
+    const input = screen.getByRole('textbox')
+    await userEvent.type(input, 'Hello 😀')
+    expect(screen.getByText(/Tecken som inte stöds/, { exact: false })).toBeInTheDocument()
+
+    await userEvent.clear(input)
+    expect(screen.queryByText(/Tecken som inte stöds/, { exact: false })).not.toBeInTheDocument()
   })
 })

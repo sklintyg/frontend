@@ -12,6 +12,8 @@ import { getIcfData } from '../../../../store/icf/icfSelectors'
 import { useAppDispatch } from '../../../../store/store'
 import type { CertificateDataElement, ConfigUeIcf, TextValidation, ValueIcf } from '../../../../types'
 import { CertificateDataValidationType } from '../../../../types'
+import InvalidCharactersInfoBox from '../InvalidCharactersInfoBox'
+import useIso8859Sanitization from '../hooks/useIso8859Sanitization'
 
 interface Props {
   question: CertificateDataElement
@@ -27,6 +29,7 @@ const UeIcf = ({ question, disabled }: Props) => {
   const [currentValue, setCurrentValue] = useState<ValueIcf>(question.value as ValueIcf)
   const textValidation = question.validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation
   const validationErrors = useSelector(getVisibleValidationErrors(question.id))
+  const { sanitize, showWarning } = useIso8859Sanitization()
 
   const dispatchValue = useRef(debounce((value: ValueIcf) => dispatch(updateCertificateDataElement({ ...question, value })), 1000)).current
 
@@ -44,6 +47,11 @@ const UeIcf = ({ question, disabled }: Props) => {
       updateValue({ icfCodes: getFilteredIcfValues(currentValue.icfCodes, previousIcfCodes, newIcfCodes) })
     }
   }, [currentValue.icfCodes, icfData, previousIcfCodes, updateValue])
+
+  const handleTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const sanitized = sanitize(event.currentTarget.value)
+    updateValue({ text: sanitized })
+  }
 
   return (
     <>
@@ -65,12 +73,13 @@ const UeIcf = ({ question, disabled }: Props) => {
         disabled={disabled}
         rows={6}
         hasValidationError={validationErrors.length > 0}
-        onChange={(event) => updateValue({ text: event.currentTarget.value })}
+        onChange={handleTextChange}
         name={questionConfig.id}
         value={currentValue.text ?? ''}
         maxLength={textValidation ? textValidation.limit : 3500}
         placeholder={(currentValue.icfCodes?.length ?? 0) > 0 ? questionConfig.placeholder : ''}
       />
+      <InvalidCharactersInfoBox visible={showWarning} />
       <QuestionValidationTexts validationErrors={validationErrors} />
     </>
   )

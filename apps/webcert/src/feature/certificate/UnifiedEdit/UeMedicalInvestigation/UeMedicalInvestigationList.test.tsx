@@ -27,6 +27,8 @@ const renderComponent = (props: ComponentProps<typeof UeMedicalInvestigationList
   )
 }
 describe('Medical investigation component', () => {
+  let modalRoot: HTMLDivElement
+
   beforeEach(() => {
     testStore = configureApplicationStore([certificateMiddleware])
 
@@ -39,6 +41,13 @@ describe('Medical investigation component', () => {
         })
       )
     )
+    modalRoot = document.createElement('div')
+    modalRoot.setAttribute('id', 'modalRoot')
+    document.body.appendChild(modalRoot)
+  })
+
+  afterEach(() => {
+    document.body.removeChild(modalRoot)
   })
 
   it('Renders without crashing', () => {
@@ -228,5 +237,22 @@ describe('Medical investigation component', () => {
     await userEvent.clear(inputs[1])
     await userEvent.type(inputs[1], newValue)
     await expect(inputs[1]).toHaveValue(newValue)
+  })
+
+  it('should remove unsupported characters and show the warning InfoBox for information source field', async () => {
+    renderComponent({ disabled: false, question })
+    const inputs = screen.getAllByRole('textbox')
+    await userEvent.type(inputs[1], 'Källa 😀')
+    expect(screen.getByText(/Tecken som inte stöds/, { exact: false })).toBeInTheDocument()
+  })
+
+  it('should hide the warning InfoBox when the information source field is cleared', async () => {
+    renderComponent({ disabled: false, question })
+    const inputs = screen.getAllByRole('textbox')
+    await userEvent.type(inputs[1], 'Källa 😀')
+    expect(screen.getByText(/Tecken som inte stöds/, { exact: false })).toBeInTheDocument()
+
+    await userEvent.clear(inputs[1])
+    expect(screen.queryByText(/Tecken som inte stöds/, { exact: false })).not.toBeInTheDocument()
   })
 })

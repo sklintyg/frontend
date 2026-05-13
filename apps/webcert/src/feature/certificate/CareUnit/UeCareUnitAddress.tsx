@@ -18,6 +18,8 @@ import { getValidationErrors } from '../../../utils'
 import CategoryHeader from '../Category/CategoryHeader'
 import CategoryTitle from '../Category/CategoryTitle'
 import QuestionWrapper from '../Question/QuestionWrapper'
+import InvalidCharactersInfoBox from '../UnifiedEdit/InvalidCharactersInfoBox'
+import useIso8859Sanitization from '../UnifiedEdit/hooks/useIso8859Sanitization'
 
 export const CARE_UNIT_ADDRESS_FIELD = 'grunddata.skapadAv.vardenhet.postadress'
 export const CARE_UNIT_ZIP_CODE_FIELD = 'grunddata.skapadAv.vardenhet.postnummer'
@@ -71,6 +73,9 @@ const UeCareUnitAddress = () => {
   const editable = useAppSelector(getIsEditable)
   const [careUnitInfo, setCareUnitInfo] = useState<Unit>(unit)
 
+  const { sanitize: sanitizeAddress, showWarning: showAddressWarning } = useIso8859Sanitization()
+  const { sanitize: sanitizeCity, showWarning: showCityWarning } = useIso8859Sanitization()
+
   const addressValidationErrors = getValidationErrors(validationErrors, CARE_UNIT_ADDRESS_FIELD)
   const zipCodeValidationErrors = getValidationErrors(validationErrors, CARE_UNIT_ZIP_CODE_FIELD)
   const cityValidationErrors = getValidationErrors(validationErrors, CARE_UNIT_CITY_FIELD)
@@ -84,7 +89,8 @@ const UeCareUnitAddress = () => {
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     const { name, value } = event.target
-    const updatedUnit = { ...careUnitInfo, [name]: value } as Unit
+    const sanitizedValue = name === 'address' ? sanitizeAddress(value) : name === 'city' ? sanitizeCity(value) : value
+    const updatedUnit = { ...careUnitInfo, [name]: sanitizedValue } as Unit
 
     setCareUnitInfo(updatedUnit)
     dispatchEditDraft(updatedUnit)
@@ -191,6 +197,7 @@ const UeCareUnitAddress = () => {
             )}
           </InputWrapper>
         </Wrapper>
+        <InvalidCharactersInfoBox visible={showAddressWarning || showCityWarning} />
       </QuestionWrapper>
     </>
   )
