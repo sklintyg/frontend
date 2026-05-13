@@ -259,7 +259,10 @@ describe('Diagnoses component', () => {
         id: 'id',
         config: fakeCertificateConfig.diagnoses({
           list: [{ id: 'id' }],
-          terminology: [{ id: 'ICD_10_SE', label: 'ICD-10-SE' }, { id: 'KSH_97_P', label: 'KSH97-P (Primärvård)' }],
+          terminology: [
+            { id: 'ICD_10_SE', label: 'ICD-10-SE' },
+            { id: 'KSH_97_P', label: 'KSH97-P (Primärvård)' },
+          ],
         }),
         value: {
           list: [{ id: 'id', code: 'F501', description: 'Diagnos 😀', terminology: 'ICD_10_SE' }],
@@ -277,7 +280,10 @@ describe('Diagnoses component', () => {
         id: 'id',
         config: fakeCertificateConfig.diagnoses({
           list: [{ id: 'id' }],
-          terminology: [{ id: 'ICD_10_SE', label: 'ICD-10-SE' }, { id: 'KSH_97_P', label: 'KSH97-P (Primärvård)' }],
+          terminology: [
+            { id: 'ICD_10_SE', label: 'ICD-10-SE' },
+            { id: 'KSH_97_P', label: 'KSH97-P (Primärvård)' },
+          ],
         }),
         value: {
           list: [{ id: 'id', code: 'F501', description: 'Clean åäö', terminology: 'ICD_10_SE' }],
