@@ -106,6 +106,19 @@ body.ids--1177-admin.ids--dark {
   font-size: 3.875rem;
 }
 
+ids-global-alert .ids-global-alert__inner {
+  max-width: 1920px !important;
+  padding-left: 1.25rem !important;
+  padding-right: 1.25rem !important;
+}
+
+@media (min-width: 1920px) {
+  ids-global-alert .ids-global-alert__inner {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
 .ids-checkbox + .ids-label-wrapper {
   margin-left: 0.5rem;
 }
@@ -149,6 +162,14 @@ body.ids--1177-admin.ids--dark {
 .ids-header-patient .ids-header-patient__info {
   margin: 0 0 0 1.5rem !important;
   align-self: center !important;
+}
+
+.ids-header-patient .ids-header-patient__name:empty {
+  margin-right: 0;
+}
+
+.ids-header-patient .ids-header-patient__content:has(.ids-header-patient__name:empty) .ids-header-patient__info {
+  margin-left: 0.5rem !important;
 }
 
 .ids-header-patient .ids-header-patient__buttons {
