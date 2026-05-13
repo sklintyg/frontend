@@ -13,6 +13,8 @@ import type {
   ValueCauseOfDeath,
 } from '../../../../types'
 import { CertificateDataValidationType } from '../../../../types'
+import InvalidCharactersInfoBox from '../InvalidCharactersInfoBox'
+import useIso8859Sanitization from '../hooks/useIso8859Sanitization'
 
 interface Props {
   config: ConfigUeCauseOfDeathControl
@@ -68,6 +70,7 @@ const UeCauseOfDeathControl = ({
   const textValidation = validation
     ? (validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
     : undefined
+  const { sanitize, showWarning } = useIso8859Sanitization()
 
   const emptyValidationError = validationErrors.filter((e) => e.type === 'EMPTY')
   const nonEmptyValidationErrors = validationErrors.filter((e) => e.type !== 'EMPTY')
@@ -75,7 +78,8 @@ const UeCauseOfDeathControl = ({
   const specifications: ConfigUeCodeItem[] = [{ id: '', code: '', label: 'Välj...' }, ...config.specifications]
 
   const handleDescriptionChange = (text: string) => {
-    onChange({ ...value, description: { ...value.description, text } })
+    const sanitized = sanitize(text)
+    onChange({ ...value, description: { ...value.description, text: sanitized } })
   }
 
   const handleDateChange = (date: string) => {
@@ -152,6 +156,7 @@ const UeCauseOfDeathControl = ({
           <QuestionValidationTexts validationErrors={nonEmptyValidationErrors} />
         </ValidationWrapper>
       )}
+      <InvalidCharactersInfoBox visible={showWarning} />
     </>
   )
 }
