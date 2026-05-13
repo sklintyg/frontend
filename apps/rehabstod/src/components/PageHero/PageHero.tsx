@@ -13,7 +13,7 @@ export function PageHero({ type, children }: { type?: 'error' | 'user'; children
       <div className="ids-content mx-auto max-w-screen-md py-24 text-center">
         {type === 'error' && (
           <div className="mb-10 inline-block text-error-40">
-            <Icon icon="attention" className="inline-block h-[4.375rem] w-[4.375rem]" />
+            <Icon icon="attention" className="inline-block h-[4.375rem] w-[4.375rem] text-[4.375rem]" />
           </div>
         )}
         {type === 'user' && (
