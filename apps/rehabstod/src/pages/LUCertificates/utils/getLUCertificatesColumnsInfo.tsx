@@ -28,7 +28,7 @@ export const getLUCertificatesColumnInfo = (column: string): Column => {
     case LUCertificatesColumn.Index:
       return { name: column, width: 50, sortable: false }
     case LUCertificatesColumn.Intyg:
-      return { name: column, width: 100, sticky: 'right' }
+      return { name: column, width: 100 }
     default:
       return { name: column }
   }

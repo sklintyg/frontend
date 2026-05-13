@@ -74,8 +74,27 @@ body.ids--1177-admin.ids--dark {
   position: absolute !important;
 }
 
+.ids-header-patient .ids-header-patient__buttons {
+  min-width: unset;
+}
+
 .ids-data-table tr td {
   background-color: var(--ids-color-surface-background-default) !important;
+}
+
+.ids-footer-1177-admin .ids-footer-1177-admin__inner,
+.ids-footer-1177-admin .ids-footer-1177-admin__sub-footer .ids-footer-1177-admin__sub-footer-container {
+  max-width: 1920px !important;
+  padding-left: 1.25rem !important;
+  padding-right: 1.25rem !important;
+}
+
+@media (min-width: 1920px) {
+  .ids-footer-1177-admin .ids-footer-1177-admin__inner,
+  .ids-footer-1177-admin .ids-footer-1177-admin__sub-footer .ids-footer-1177-admin__sub-footer-container {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
 }
 
 .ids-footer-1177-admin .ids-footer-1177-admin__mobile-links {
@@ -93,6 +112,16 @@ body.ids--1177-admin.ids--dark {
 
 .ids-header-patient .ids-patient-header__inner {
   align-items: center !important;
+  max-width: 1920px !important;
+  padding-left: 1.25rem !important;
+  padding-right: 1.25rem !important;
+}
+
+@media (min-width: 1920px) {
+  .ids-header-patient .ids-patient-header__inner {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
 }
 
 .ids-header-patient .ids-header-patient__content {

@@ -31,24 +31,28 @@ export function CareProviderAccordion({
 
   return (
     <details id={unit.id} className="group my-2 border-b border-neutral-90 pb-2">
-      <summary role="button" className="flex cursor-pointer items-start space-x-2">
-        <div className="flex w-full items-center justify-between [&:not(:last-child)]:mb-2">
-          <Radio
-            id={unit.namn}
-            value={unit.namn}
-            label={unit.namn}
-            checked={selectedRadio === unit.namn}
-            onClick={(e) => {
-              const detailsEl = e.currentTarget.closest('details')
-              if (detailsEl) {
-                detailsEl.setAttribute('open', '')
-              }
-            }}
-            onChange={(event) => handleChooseUnit(event, unit)}
+      <summary role="button" className="block cursor-pointer [&::-webkit-details-marker]:hidden">
+        <div className="flex w-full items-center justify-between">
+          <div className="min-w-0 flex-1">
+            <Radio
+              id={unit.namn}
+              value={unit.namn}
+              label={unit.namn}
+              checked={selectedRadio === unit.namn}
+              onClick={(e) => {
+                const detailsEl = e.currentTarget.closest('details')
+                if (detailsEl) {
+                  detailsEl.setAttribute('open', '')
+                }
+              }}
+              onChange={(event) => handleChooseUnit(event, unit)}
+            />
+          </div>
+          <Icon
+            icon="chevron-right"
+            className="ml-2 shrink-0 rotate-90 text-sm transition-transform group-open:-rotate-90"
+            colorPreset={1}
           />
-          <span className="inline-block h-3 w-3 origin-center rotate-90 group-open:-rotate-90">
-            <Icon icon="chevron-right" className="h-full w-full" colorPreset={1} />
-          </span>
         </div>
       </summary>
       <div className="pt-2">{children}</div>

@@ -2,7 +2,6 @@ import { useTableContext } from '../hooks/useTableContext'
 
 const iconStyle = {
   marginBottom: '-0.125rem',
-  color: 'var(--IDS-ICON__COLOR)',
 }
 
 export function SortingIcon({ column }: { column: string }) {

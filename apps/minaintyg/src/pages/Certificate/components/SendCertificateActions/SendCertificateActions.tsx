@@ -21,12 +21,12 @@ export function SendCertificateActions({
     <>
       {error && <SendCertificateErrorAlert recipient={recipient} error={error} />}
       {recipient.sent && <SendCertificateSuccessAlert recipient={recipient} />}
-      <div className="flex flex-col gap-5 py-5 sm:flex-row">
-        <IDSButton role="button" sBlock secondary={!isSuccess} onClick={() => navigate('..')}>
+      <div className="flex flex-col gap-5 py-5 md:flex-row">
+        <IDSButton role="button" className="w-full md:w-auto" secondary={!isSuccess} onClick={() => navigate('..')}>
           Tillbaka till intyget
         </IDSButton>
         {sendFunction.enabled && (
-          <IDSButton role="button" sBlock onClick={() => !isLoading && sendCertificate({ id })}>
+          <IDSButton role="button" className="w-full md:w-auto" onClick={() => !isLoading && sendCertificate({ id })}>
             Skicka
           </IDSButton>
         )}

@@ -20,6 +20,19 @@ body.ids {
   font-size: 3.875rem;
 }
 
+/* Fix missing border-left: 0 for th:first-child in tbody (affects mobile table row headers) */
+.ids table.ids-table tbody tr th:first-child {
+  border-left: 0;
+}
+
+/* Remove double top border on the first tbody row in mobile tables (each row is its own table with thead + tbody) */
+@media (max-width: 767px) {
+  .ids table.ids-table thead + tbody tr:first-child th,
+  .ids table.ids-table thead + tbody tr:first-child td {
+    border-top: 0;
+  }
+}
+
 body.ids .ids-header-1177 .ids-header-1177-nav-item a,
 body.ids .ids-header-1177 .ids-header-1177-avatar a,
 body.ids .ids-header-1177 .ids-mobile-menu a {
@@ -35,6 +48,31 @@ body.ids .ids-header-1177 .ids-header-1177-avatar__menu-links a .ids-icon--text-
   top: 0;
 }
 
+body.ids .ids-footer-1177 .ids-link {
+  align-items: center;
+}
+
+.ids-table {
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-bottom: none !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  --IDS-TABLE__CELL-BORDER: 0.063rem solid var(--ids-color-brand-border-primary);
+  --IDS-TABLE__FIRST-ROW-CELL-BORDER-TOP: 0;
+}
+
+.ids-table thead tr:first-child td:first-child {
+  border-left: 0 !important;
+  border-top: 0 !important;
+  border-bottom: var(--IDS-TABLE__HEAD-BORDER-BOTTOM) !important;
+}
+
+.ids-table tbody tr:first-child th {
+  border-top: 0 !important;
+}
+
 @media (max-width: 1024px) {
   body.ids .ids-header-1177 .ids-mobile-menu,
   body.ids .ids-footer-1177 .ids-mobile-menu {
@@ -43,17 +81,17 @@ body.ids .ids-header-1177 .ids-header-1177-avatar__menu-links a .ids-icon--text-
     --IDS-MOBILE-MENU-ITEM--HOVER__COLOR: var(--ids-color-surface-background-elevated-1);
     --IDS-MOBILE-MENU-ITEM__BACKGROUND-COLOR: var(--ids-palette-primary-40);
     --IDS-MOBILE-MENU-ITEM__BEFORE-BACKGROUND-COLOR: var(--ids-palette-primary-40);
-    --IDS-MOBILE-MENU-ITEM__BEFORE-HOVER-BACKGROUND-COLOR: var(--ids-palette-primary-40);
+    --IDS-MOBILE-MENU-ITEM__BEFORE-HOVER-BACKGROUND-COLOR: white;
 
     --IDS-MOBILE-MENU-ITEM-SECONDARY__COLOR: var(--ids-color-surface-background-elevated-1);
     --IDS-MOBILE-MENU-ITEM-SECONDARY__BACKGROUND-COLOR: var(--ids-palette-primary-40);
     --IDS-MOBILE-MENU-ITEM-SECONDARY__BEFORE-BACKGROUND-COLOR: var(--ids-palette-primary-40);
-    --IDS-MOBILE-MENU-ITEM-SECONDARY__BEFORE-HOVER-BACKGROUND-COLOR: var(--ids-palette-primary-40);
+    --IDS-MOBILE-MENU-ITEM-SECONDARY__BEFORE-HOVER-BACKGROUND-COLOR: white;
 
     --IDS-MOBILE-MENU-ITEM--L2__COLOR: var(--ids-color-surface-background-elevated-1);
     --IDS-MOBILE-MENU-ITEM--L2__BACKGROUND-COLOR: var(--ids-palette-primary-40);
     --IDS-MOBILE-MENU-ITEM--L2__BEFORE-BACKGROUND-COLOR: var(--ids-palette-primary-40);
-    --IDS-MOBILE-MENU-ITEM--L2__BEFORE-HOVER-BACKGROUND-COLOR: var(--ids-palette-primary-40);
+    --IDS-MOBILE-MENU-ITEM--L2__BEFORE-HOVER-BACKGROUND-COLOR: white;
   }
 
   .ids-footer-1177 .ids-footer-1177__mobile-menu {

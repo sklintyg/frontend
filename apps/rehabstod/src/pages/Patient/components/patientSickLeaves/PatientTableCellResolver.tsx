@@ -30,7 +30,7 @@ export function PatientTableCellResolver({
       return <TableCell>{certificate.riskSignal && <RiskSignalInfo {...certificate.riskSignal} />}</TableCell>
     case PatientColumn.Intyg:
       return certificate ? (
-        <TableCell sticky="right">
+        <TableCell>
           {certificate.otherVardgivare || certificate.otherVardenhet ? (
             <OtherUnitInformation />
           ) : (

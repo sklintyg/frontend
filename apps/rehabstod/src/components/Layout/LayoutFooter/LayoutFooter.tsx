@@ -22,7 +22,7 @@ export function LayoutFooter() {
               rel={links?.ineraManualRehabstod?.target === '_blank' ? 'noreferrer' : undefined}
               className="inline-flex items-center"
             >
-              <span aria-hidden="true" className="ids-icon-arrow-right-small ids-icon--text-start mt-0" />
+              <span aria-hidden="true" className="ids-icon-arrow-right-small ids-icon--text-start" style={{ top: 0 }} />
               {links?.ineraManualRehabstod?.text}
             </a>
           </IDSLink>{' '}
@@ -33,7 +33,7 @@ export function LayoutFooter() {
               rel={links?.ineraNationellKundservice?.target === '_blank' ? 'noreferrer' : undefined}
               className="inline-flex items-center"
             >
-              <span aria-hidden="true" className="ids-icon-arrow-right-small ids-icon--text-start mt-0" />
+              <span aria-hidden="true" className="ids-icon-arrow-right-small ids-icon--text-start" style={{ top: 0 }} />
               {links?.ineraNationellKundservice?.text}
             </a>
           </IDSLink>
@@ -47,7 +47,7 @@ export function LayoutFooter() {
             rel={links?.rehabstodTillganglighetsredogorelse?.target === '_blank' ? 'noreferrer' : undefined}
             className="inline-flex items-center"
           >
-            <span aria-hidden="true" className="ids-icon-arrow-right-small ids-icon--text-start mt-0" />
+            <span aria-hidden="true" className="ids-icon-arrow-right-small ids-icon--text-start" style={{ top: 0 }} />
             {links?.rehabstodTillganglighetsredogorelse?.text}
           </a>
         </IDSLink>

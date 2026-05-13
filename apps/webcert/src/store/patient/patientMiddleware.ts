@@ -43,6 +43,9 @@ const handleGetPatientSuccess: Middleware<Dispatch> =
     if (action.payload.status === PatientStatus.FOUND) {
       dispatch(clearPatientError())
       dispatch(setPatient(action.payload.patient))
+    } else if (action.payload.status === PatientStatus.NO_NAME && action.payload.patient) {
+      dispatch(setPatient(action.payload.patient))
+      dispatch(getPatientError(action.payload))
     } else {
       dispatch(getPatientError(action.payload))
     }

@@ -38,14 +38,17 @@ export function FixedTable({ children, scrollRef }: { children: ReactNode; scrol
         ref={stickyRef}
         style={{ width: `${tableWidth}px` }}
         className={classNames(
-          'm-auto max-w-screen-xxl border-accent-30 bg-secondary-90 order-2 overflow-hidden relative shadow-md',
+          'm-auto max-w-screen-xxl border-neutral-90 bg-secondary-90 order-2 overflow-hidden relative shadow-md',
           fixed ? 'h-auto border-x' : 'h-0'
         )}
       >
         <div style={{ width: `${tableWidth + scrollLeft}px` }} className="float-right">
           <table
             ref={tableRef}
-            className={classNames('table-fixed m-0 whitespace-nowrap border-none text-sm', posAbsolute && 'ids-table-sticky')}
+            className={classNames(
+              'ids-data-table table-fixed m-0 whitespace-nowrap border-none text-sm',
+              posAbsolute && 'ids-table-sticky'
+            )}
             style={{ width: `${tableWidth}px` }}
           >
             {fixed && children}

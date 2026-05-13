@@ -7,7 +7,9 @@ import { ChartLegend } from './ChartLegend'
 import { GenderGraph } from './GenderGraph'
 
 const femaleColor = '#D17200'
-const maleColor = '#5B224E'
+const maleColorLight = '#812861'
+const maleColorDark = '#B3478C'
+const maleColor = maleColorLight
 
 export function GenderDivisionGraph({ genders }: { genders: GenderSummary[] }) {
   const female = genders.find((gender) => gender.gender === Gender.F)
@@ -26,8 +28,10 @@ export function GenderDivisionGraph({ genders }: { genders: GenderSummary[] }) {
         <GenderGraph percentage={female.percentage} color={femaleColor}>
           <FemaleIcon fill={femaleColor} />
         </GenderGraph>
-        <GenderGraph percentage={male.percentage} color={maleColor}>
-          <MaleIcon fill={maleColor} />
+        <GenderGraph percentage={male.percentage} color={maleColorLight} darkColor={maleColorDark}>
+          <div className="text-[#812861] dark:text-[#B3478C]">
+            <MaleIcon />
+          </div>
         </GenderGraph>
       </div>
       <ChartLegend
