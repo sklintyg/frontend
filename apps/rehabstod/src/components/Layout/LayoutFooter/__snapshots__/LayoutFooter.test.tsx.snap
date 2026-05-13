@@ -31,6 +31,31 @@ exports[`Should render footer as expected 1`] = `
             >
               Rehabstöd används för att samordna och följa upp sjukskrivna patienters rehabilitering.
             </p>
+            <div
+              class="ids-footer-1177-admin__darkmode-toggle"
+            >
+              <div
+                class="ids-darkmode-toggle"
+              >
+                <input
+                  aria-label="Växla tema"
+                  class="ids-darkmode-toggle__input"
+                  id=":r0:"
+                  role="switch"
+                  type="checkbox"
+                />
+                <div
+                  class="ids-label-wrapper"
+                >
+                  <label
+                    class="ids-darkmode-toggle__label ids-label ids-label--clickable"
+                    for=":r0:"
+                  >
+                    Mörkt läge
+                  </label>
+                </div>
+              </div>
+            </div>
           </div>
           <div
             class="ids-footer-1177-admin__cols"
@@ -109,7 +134,7 @@ exports[`Should render footer as expected 1`] = `
           </div>
           <div
             class="ids-mobile-menu-item__sub-items"
-            id="mobile-menu-sub-item-:r0:"
+            id="mobile-menu-sub-item-:r1:"
           />
         </div>
         <div
@@ -128,7 +153,7 @@ exports[`Should render footer as expected 1`] = `
           </div>
           <div
             class="ids-mobile-menu-item__sub-items"
-            id="mobile-menu-sub-item-:r1:"
+            id="mobile-menu-sub-item-:r2:"
           />
         </div>
         <div
@@ -147,7 +172,7 @@ exports[`Should render footer as expected 1`] = `
           </div>
           <div
             class="ids-mobile-menu-item__sub-items"
-            id="mobile-menu-sub-item-:r2:"
+            id="mobile-menu-sub-item-:r3:"
           />
         </div>
       </div>
