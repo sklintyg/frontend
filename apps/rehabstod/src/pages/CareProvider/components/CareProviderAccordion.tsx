@@ -48,7 +48,11 @@ export function CareProviderAccordion({
               onChange={(event) => handleChooseUnit(event, unit)}
             />
           </div>
-          <Icon icon="chevron-right" className="ml-2 shrink-0 rotate-90 text-sm transition-transform group-open:-rotate-90" colorPreset={1} />
+          <Icon
+            icon="chevron-right"
+            className="ml-2 shrink-0 rotate-90 text-sm transition-transform group-open:-rotate-90"
+            colorPreset={1}
+          />
         </div>
       </summary>
       <div className="pt-2">{children}</div>

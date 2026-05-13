@@ -11,9 +11,7 @@ export function GenderGraph({
   darkColor?: string
   children: ReactNode
 }) {
-  const style = darkColor
-    ? ({ '--gender-graph-color': color, '--gender-graph-dark-color': darkColor } as CSSProperties)
-    : undefined
+  const style = darkColor ? ({ '--gender-graph-color': color, '--gender-graph-dark-color': darkColor } as CSSProperties) : undefined
 
   const fillClass = darkColor ? '[fill:var(--gender-graph-color)] dark:[fill:var(--gender-graph-dark-color)]' : undefined
 
