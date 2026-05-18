@@ -24,25 +24,14 @@ const applyDarkMode = (darkMode: boolean) => {
   document.body.classList.toggle('ids--light', !darkMode)
 }
 
-const getInitialDarkMode = (): boolean => {
-  try {
-    const persisted = sessionStorage.getItem('persist:settings')
-    if (persisted) {
-      const parsed = JSON.parse(persisted)
-      if (parsed.darkMode !== undefined) {
-        return JSON.parse(parsed.darkMode)
-      }
-    }
-  } catch {
-    // ignore
-  }
-  return window.matchMedia('(prefers-color-scheme: dark)').matches
-}
-
-applyDarkMode(getInitialDarkMode())
+applyDarkMode(window.matchMedia('(prefers-color-scheme: dark)').matches)
 
 store.subscribe(() => {
   applyDarkMode(store.getState().settings.darkMode)
+})
+
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+  store.dispatch({ type: 'settings/updateDarkMode', payload: e.matches })
 })
 
 setDefaultOptions({ locale: sv })

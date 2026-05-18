@@ -4,6 +4,7 @@ import type { Config } from 'tailwindcss'
 
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}', './node_modules/@frontend/components/dist/*.js'],
+  darkMode: ['class', '.ids--dark'],
   important: true,
   theme: {
     screens: {

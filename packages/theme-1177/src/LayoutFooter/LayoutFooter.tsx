@@ -48,9 +48,9 @@ export function LayoutFooter({ hasSession }: { hasSession: boolean }) {
         <IDSMobileMenu variation={1}>
           <IDSMobileMenuItem
             link={
-              <a href="https://www.1177.se/e-tjanster-support" target="_blank" rel="noreferrer">
+              <a href="https://www.1177.se/e-tjanster-support" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1">
                 Support
-                <Icon icon="external-link" textEnd />
+                <Icon icon="external-link" />
               </a>
             }
           />
@@ -60,17 +60,18 @@ export function LayoutFooter({ hasSession }: { hasSession: boolean }) {
                 href="https://www.1177.se/om-1177/1177.se/tillganglighet-pa-1177/tillganglighetsredogorelse-for-e-tjanster-pa-1177.se/"
                 target="_blank"
                 rel="noreferrer"
+                className="inline-flex items-center gap-1"
               >
                 Tillgänglighet
-                <Icon icon="external-link" textEnd />
+                <Icon icon="external-link" />
               </a>
             }
           />
           <IDSMobileMenuItem
             link={
-              <a href="https://www.1177.se/e-tjanster" target="_blank" rel="noreferrer">
+              <a href="https://www.1177.se/e-tjanster" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1">
                 Läs mer om e-tjänster
-                <Icon icon="external-link" textEnd />
+                <Icon icon="external-link" />
               </a>
             }
           />
