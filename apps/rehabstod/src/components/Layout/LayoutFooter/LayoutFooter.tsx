@@ -16,7 +16,11 @@ export function LayoutFooter() {
     <IDSFooter1177Admin
       headline="Rehabstöd"
       toggle={
-        <IDSDarkmodeToggle checked={darkMode} onChange={(e) => dispatch(updateDarkMode((e.target as HTMLInputElement).checked))}>
+        <IDSDarkmodeToggle
+          checked={darkMode}
+          srText="Mörkt läge"
+          onChange={(e) => dispatch(updateDarkMode((e.target as HTMLInputElement).checked))}
+        >
           Mörkt läge
         </IDSDarkmodeToggle>
       }

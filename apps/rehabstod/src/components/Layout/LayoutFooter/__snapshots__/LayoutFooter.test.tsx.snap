@@ -38,7 +38,7 @@ exports[`Should render footer as expected 1`] = `
                 class="ids-darkmode-toggle"
               >
                 <input
-                  aria-label="Växla tema"
+                  aria-label="Mörkt läge"
                   class="ids-darkmode-toggle__input"
                   id=":r0:"
                   role="switch"

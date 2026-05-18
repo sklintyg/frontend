@@ -25,7 +25,7 @@ const persistLUConfig = {
 const persistSettingsConfig = {
   key: settingsReducerPath,
   storage,
-  allowlist: ['darkMode'],
+  allowlist: [] as string[],
 }
 
 const persistedSickLeaveReducer = persistReducer(persistSickLeaveConfig, sickLeaveReducer)
