@@ -11,3 +11,15 @@ delete globalThis.Request
 delete globalThis.Response
 // @ts-expect-error - intentionally deleting built-in globals for test environment
 delete globalThis.Headers
+
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: (query: string) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    dispatchEvent: () => false,
+  }),
+})
