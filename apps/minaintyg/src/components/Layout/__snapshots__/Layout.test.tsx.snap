@@ -508,13 +508,14 @@ exports[`Should render as expected 1`] = `
               class="ids-mobile-menu-item__inner ids-mobile-menu-item__inner--level-1"
             >
               <a
+                class="inline-flex items-center gap-1"
                 href="https://www.1177.se/e-tjanster-support"
                 rel="noreferrer"
                 target="_blank"
               >
                 Support
                 <span
-                  class="ids-icon-external-link ids-icon--text-end"
+                  class="ids-icon-external-link"
                 />
               </a>
             </div>
@@ -530,13 +531,14 @@ exports[`Should render as expected 1`] = `
               class="ids-mobile-menu-item__inner ids-mobile-menu-item__inner--level-1"
             >
               <a
+                class="inline-flex items-center gap-1"
                 href="https://www.1177.se/om-1177/1177.se/tillganglighet-pa-1177/tillganglighetsredogorelse-for-e-tjanster-pa-1177.se/"
                 rel="noreferrer"
                 target="_blank"
               >
                 Tillgänglighet
                 <span
-                  class="ids-icon-external-link ids-icon--text-end"
+                  class="ids-icon-external-link"
                 />
               </a>
             </div>
@@ -552,13 +554,14 @@ exports[`Should render as expected 1`] = `
               class="ids-mobile-menu-item__inner ids-mobile-menu-item__inner--level-1"
             >
               <a
+                class="inline-flex items-center gap-1"
                 href="https://www.1177.se/e-tjanster"
                 rel="noreferrer"
                 target="_blank"
               >
                 Läs mer om e-tjänster
                 <span
-                  class="ids-icon-external-link ids-icon--text-end"
+                  class="ids-icon-external-link"
                 />
               </a>
             </div>

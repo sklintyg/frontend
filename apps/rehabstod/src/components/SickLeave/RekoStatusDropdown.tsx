@@ -66,7 +66,7 @@ export function RekoStatusDropdown({
             }
           }}
           type="button"
-          className="py-1 text-left hover:bg-[var(--ids-color-interactive-background-default)] hover:text-black"
+          className="py-1 text-left hover:bg-accent-90 dark:hover:bg-[var(--ids-color-interactive-background-default)] dark:hover:text-black"
         >
           <span className="px-2">{type.name}</span>
         </button>
