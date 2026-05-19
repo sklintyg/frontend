@@ -19,6 +19,7 @@ export function RekoStatusDropdown({
   const [savedRekoStatus, updateSavedRekoStatus] = useState(statusFromSickLeave ? statusFromSickLeave.status.name : '-')
   const sickLeaveTimestamp = getRekoStatusSickLeaveTimestamp(endDate)
   const { filter } = useAppSelector((state) => state.sickLeaveFilter)
+  const darkMode = useAppSelector((state) => state.settings.darkMode)
   const [open, setOpen] = useState(false)
 
   if (!populatedFilters || !populatedFilters.rekoStatusTypes) {
@@ -32,7 +33,12 @@ export function RekoStatusDropdown({
   }
 
   return (
-    <SelectButton title={savedRekoStatus} open={open} handleOpenChange={(isOpen) => setOpen(isOpen)}>
+    <SelectButton
+      title={savedRekoStatus}
+      open={open}
+      handleOpenChange={(isOpen) => setOpen(isOpen)}
+      dropdownStyle={{ backgroundColor: darkMode ? 'var(--ids-palette-neutral-20)' : undefined }}
+    >
       {populatedFilters.rekoStatusTypes.map((type) => (
         <button
           key={type.id}
