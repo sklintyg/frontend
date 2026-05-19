@@ -1,5 +1,5 @@
 import { IDSDarkmodeToggle, IDSFooter1177Admin, IDSLink, IDSMobileMenu, IDSMobileMenuItem } from '@inera/ids-react'
-import { TertiaryButton } from '@frontend/components'
+import { Icon, TertiaryButton } from '@frontend/components'
 import { useGetLinksQuery } from '../../../store/api'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { updateShowCookieDialog } from '../../../store/slices/cookieDialog.slice'
@@ -26,23 +26,21 @@ export function LayoutFooter() {
       }
       col1={
         <>
-          <IDSLink underlined block footer>
+          <IDSLink underlined block footer endItem={<Icon icon="external-link-small" textEnd style={{ marginLeft: 0 }} />}>
             <a
               href={links?.ineraManualRehabstod?.url}
               target={links?.ineraManualRehabstod?.target}
               rel={links?.ineraManualRehabstod?.target === '_blank' ? 'noreferrer' : undefined}
-              className="inline-flex items-center"
             >
               <span aria-hidden="true" className="ids-icon-arrow-right-small ids-icon--text-start" style={{ top: 0 }} />
               {links?.ineraManualRehabstod?.text}
             </a>
           </IDSLink>{' '}
-          <IDSLink underlined block footer>
+          <IDSLink underlined block footer endItem={<Icon icon="external-link-small" textEnd style={{ marginLeft: 0 }} />}>
             <a
               href={links?.ineraNationellKundservice?.url}
               target={links?.ineraNationellKundservice?.target}
               rel={links?.ineraNationellKundservice?.target === '_blank' ? 'noreferrer' : undefined}
-              className="inline-flex items-center"
             >
               <span aria-hidden="true" className="ids-icon-arrow-right-small ids-icon--text-start" style={{ top: 0 }} />
               {links?.ineraNationellKundservice?.text}
@@ -51,12 +49,11 @@ export function LayoutFooter() {
         </>
       }
       col2={
-        <IDSLink underlined block footer>
+        <IDSLink underlined block footer endItem={<Icon icon="external-link-small" textEnd style={{ marginLeft: 0 }} />}>
           <a
             href={links?.rehabstodTillganglighetsredogorelse?.url}
             target={links?.rehabstodTillganglighetsredogorelse?.target}
             rel={links?.rehabstodTillganglighetsredogorelse?.target === '_blank' ? 'noreferrer' : undefined}
-            className="inline-flex items-center"
           >
             <span aria-hidden="true" className="ids-icon-arrow-right-small ids-icon--text-start" style={{ top: 0 }} />
             {links?.rehabstodTillganglighetsredogorelse?.text}
@@ -71,8 +68,10 @@ export function LayoutFooter() {
                 href={links?.ineraManualRehabstod?.url}
                 target={links?.ineraManualRehabstod?.target}
                 rel={links?.ineraManualRehabstod?.target === '_blank' ? 'noreferrer' : undefined}
+                className="inline-flex items-center"
               >
                 {links?.ineraManualRehabstod?.text}
+                <Icon icon="external-link-small" textEnd />
               </a>
             }
           />
@@ -82,8 +81,10 @@ export function LayoutFooter() {
                 href={links?.ineraNationellKundservice?.url}
                 target={links?.ineraNationellKundservice?.target}
                 rel={links?.ineraNationellKundservice?.target === '_blank' ? 'noreferrer' : undefined}
+                className="inline-flex items-center"
               >
                 {links?.ineraNationellKundservice?.text}
+                <Icon icon="external-link-small" textEnd />
               </a>
             }
           />
@@ -93,8 +94,10 @@ export function LayoutFooter() {
                 href={links?.rehabstodTillganglighetsredogorelse?.url}
                 target={links?.rehabstodTillganglighetsredogorelse?.target}
                 rel={links?.rehabstodTillganglighetsredogorelse?.target === '_blank' ? 'noreferrer' : undefined}
+                className="inline-flex items-center"
               >
                 {links?.rehabstodTillganglighetsredogorelse?.text}
+                <Icon icon="external-link-small" textEnd />
               </a>
             }
           />

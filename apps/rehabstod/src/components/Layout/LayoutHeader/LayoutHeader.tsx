@@ -17,14 +17,14 @@ export function LayoutHeader() {
     if (isLoading) return undefined
     if (user) return <HeaderAvatarMenu name={name} unit={unit} />
     return (
-      <IDSHeader1177AdminItem icon="user">
+      <IDSHeader1177AdminItem icon="user" mobile>
         <a href={config?.sithsIdpUrl}>Logga in</a>
       </IDSHeader1177AdminItem>
     )
   }
 
   const getMobileMenu = () => {
-    if (!user) return <IDSHeader1177AdminMenuMobile />
+    if (!user) return undefined
     return (
       <IDSHeader1177AdminMenuMobile>
         <IDSMobileMenu>

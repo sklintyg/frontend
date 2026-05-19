@@ -10,7 +10,7 @@ import {
   useInteractions,
   useRole,
 } from '@floating-ui/react'
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import { Icon } from '../Icon/Icon'
 import { hasNoChildren } from '../utils/hasNoChildren'
 
@@ -19,11 +19,13 @@ export function SelectButton({
   children,
   open,
   handleOpenChange,
+  dropdownStyle,
 }: {
   title: string
   children: ReactNode
   open: boolean
   handleOpenChange: (isOpen: boolean) => void
+  dropdownStyle?: CSSProperties
 }) {
   const { x, y, strategy, refs, context } = useFloating({
     placement: 'bottom-start',
@@ -75,7 +77,7 @@ export function SelectButton({
         <FloatingPortal>
           <FloatingFocusManager context={context} modal={false}>
             <div
-              className="ids-content z-40 rounded bg-background p-2.5 shadow-[0_0_10px_rgba(0,0,0,0.3)]"
+              className="ids-content z-40 rounded p-2.5 shadow-[0_0_10px_rgba(0,0,0,0.3)]"
               ref={refs.setFloating}
               style={{
                 position: strategy,
@@ -83,6 +85,8 @@ export function SelectButton({
                 left: x ?? 0,
                 minWidth: 190,
                 outline: 0,
+                backgroundColor: 'var(--ids-color-surface-background-default)',
+                ...dropdownStyle,
               }}
               {...getFloatingProps()}
             >
