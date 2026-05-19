@@ -75,6 +75,14 @@ exports[`Should render footer as expected 1`] = `
                   style="top: 0px;"
                 />
                 ineraManualRehabstod
+                <span
+                  style="margin-left: 0.5rem;"
+                >
+                  <span
+                    class="ids-icon-external-link-small ids-icon--text-end"
+                    style="margin-left: 0px;"
+                  />
+                </span>
               </a>
                
               <a
@@ -89,6 +97,14 @@ exports[`Should render footer as expected 1`] = `
                   style="top: 0px;"
                 />
                 ineraNationellKundservice
+                <span
+                  style="margin-left: 0.5rem;"
+                >
+                  <span
+                    class="ids-icon-external-link-small ids-icon--text-end"
+                    style="margin-left: 0px;"
+                  />
+                </span>
               </a>
             </div>
             <div
@@ -106,6 +122,14 @@ exports[`Should render footer as expected 1`] = `
                   style="top: 0px;"
                 />
                 Tillgänglighetsredogörelse
+                <span
+                  style="margin-left: 0.5rem;"
+                >
+                  <span
+                    class="ids-icon-external-link-small ids-icon--text-end"
+                    style="margin-left: 0px;"
+                  />
+                </span>
               </a>
             </div>
           </div>
@@ -214,9 +238,7 @@ exports[`Should render footer as expected 1`] = `
           <div
             class="ids-footer-1177-admin__sub-footer-right"
           >
-            <p
-              class="text-white"
-            >
+            <p>
               Rehabstöd drivs av
                
               <a
@@ -279,13 +301,11 @@ exports[`Should render footer as expected 1`] = `
         <div
           class="ids-footer-1177-admin__sub-footer-mobile-text"
         >
-          <p
-            class="text-white"
-          >
+          <p>
             Rehabstöd drivs av
              
             <a
-              class="ids-link ids-link--small ids-link--underlined"
+              class="ids-link ids-link--color-3 ids-link--small ids-link--underlined"
               href="https://delicious-quadrant.org"
               rel="noreferrer"
               target="_blank"
