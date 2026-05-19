@@ -37,7 +37,7 @@ export function RekoStatusDropdown({
       title={savedRekoStatus}
       open={open}
       handleOpenChange={(isOpen) => setOpen(isOpen)}
-      dropdownStyle={{ backgroundColor: darkMode ? 'var(--ids-palette-neutral-20)' : undefined }}
+      dropdownStyle={darkMode ? { backgroundColor: 'var(--ids-palette-neutral-20)' } : undefined}
     >
       {populatedFilters.rekoStatusTypes.map((type) => (
         <button

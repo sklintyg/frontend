@@ -68,8 +68,10 @@ export function LayoutFooter() {
                 href={links?.ineraManualRehabstod?.url}
                 target={links?.ineraManualRehabstod?.target}
                 rel={links?.ineraManualRehabstod?.target === '_blank' ? 'noreferrer' : undefined}
+                className="inline-flex items-center"
               >
                 {links?.ineraManualRehabstod?.text}
+                <Icon icon="external-link-small" textEnd />
               </a>
             }
           />
@@ -79,8 +81,10 @@ export function LayoutFooter() {
                 href={links?.ineraNationellKundservice?.url}
                 target={links?.ineraNationellKundservice?.target}
                 rel={links?.ineraNationellKundservice?.target === '_blank' ? 'noreferrer' : undefined}
+                className="inline-flex items-center"
               >
                 {links?.ineraNationellKundservice?.text}
+                <Icon icon="external-link-small" textEnd />
               </a>
             }
           />
@@ -90,8 +94,10 @@ export function LayoutFooter() {
                 href={links?.rehabstodTillganglighetsredogorelse?.url}
                 target={links?.rehabstodTillganglighetsredogorelse?.target}
                 rel={links?.rehabstodTillganglighetsredogorelse?.target === '_blank' ? 'noreferrer' : undefined}
+                className="inline-flex items-center"
               >
                 {links?.rehabstodTillganglighetsredogorelse?.text}
+                <Icon icon="external-link-small" textEnd />
               </a>
             }
           />
