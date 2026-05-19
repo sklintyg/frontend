@@ -15,7 +15,7 @@ export function Welcome() {
     <>
       <IDSHeader1177Admin
         brandText="Rehabstöd"
-        items={<IDSDarkmodeToggle checked={darkMode} onChange={() => dispatch(updateDarkMode(!darkMode))} />}
+        items={<IDSDarkmodeToggle checked={darkMode} srText="Mörkt läge" onChange={() => dispatch(updateDarkMode(!darkMode))} />}
       />
       <div className="m-auto max-w-4xl px-3 py-2">
         <IDSTabs

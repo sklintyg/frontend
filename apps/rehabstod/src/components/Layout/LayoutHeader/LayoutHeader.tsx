@@ -40,6 +40,7 @@ export function LayoutHeader() {
     <IDSHeader1177Admin
       className="print:hidden"
       brandText="Rehabstöd"
+      logoHref="/"
       skipToContentLink={<a href="#content">Till sidans huvudinnehåll</a>}
       items={!isLoading && user ? <AboutHeaderItem /> : undefined}
       avatar={getAvatar()}

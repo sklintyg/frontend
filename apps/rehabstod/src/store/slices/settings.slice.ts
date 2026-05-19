@@ -16,7 +16,7 @@ const initialState: Settings = {
   preferences: {},
   showPersonalInformation: true,
   showAboutDialog: false,
-  darkMode: false,
+  darkMode: window.matchMedia('(prefers-color-scheme: dark)').matches,
 }
 
 const settingsSlice = createSlice({
