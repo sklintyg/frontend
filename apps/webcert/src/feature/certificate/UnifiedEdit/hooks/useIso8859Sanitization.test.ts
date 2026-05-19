@@ -61,3 +61,38 @@ describe('useIso8859Sanitization', () => {
     expect(result.current.showWarning).toBe(false)
   })
 })
+
+describe('useIso8859Sanitization with initialValue', () => {
+  it('should return showWarning=true and sanitized value when initialValue contains unsupported characters', () => {
+    const { result } = renderHook(() => useIso8859Sanitization('Prefilled 😀'))
+    expect(result.current.showWarning).toBe(true)
+    expect(result.current.sanitizedInitialValue).toBe('Prefilled ')
+  })
+
+  it('should return showWarning=false and unchanged value when initialValue is clean', () => {
+    const { result } = renderHook(() => useIso8859Sanitization('Clean text åäö'))
+    expect(result.current.showWarning).toBe(false)
+    expect(result.current.sanitizedInitialValue).toBe('Clean text åäö')
+  })
+
+  it('should return showWarning=false when initialValue is empty', () => {
+    const { result } = renderHook(() => useIso8859Sanitization(''))
+    expect(result.current.showWarning).toBe(false)
+    expect(result.current.sanitizedInitialValue).toBe('')
+  })
+
+  it('should return showWarning=false when no initialValue is provided (backwards compatible)', () => {
+    const { result } = renderHook(() => useIso8859Sanitization())
+    expect(result.current.showWarning).toBe(false)
+    expect(result.current.sanitizedInitialValue).toBe('')
+  })
+
+  it('should still allow sanitize() calls after initialValue was used', () => {
+    const { result } = renderHook(() => useIso8859Sanitization('Clean'))
+    expect(result.current.showWarning).toBe(false)
+    act(() => {
+      result.current.sanitize('New 😀')
+    })
+    expect(result.current.showWarning).toBe(true)
+  })
+})

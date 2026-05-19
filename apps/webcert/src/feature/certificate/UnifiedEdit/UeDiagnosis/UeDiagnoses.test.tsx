@@ -252,4 +252,46 @@ describe('Diagnoses component', () => {
     await userEvent.clear(descInput)
     expect(screen.queryByText(/Tecken som inte stöds/, { exact: false })).not.toBeInTheDocument()
   })
+
+  it('should show warning and display sanitized description when prefilled with unsupported characters', () => {
+    renderComponent({
+      question: fakeDiagnosesElement({
+        id: 'id',
+        config: fakeCertificateConfig.diagnoses({
+          list: [{ id: 'id' }],
+          terminology: [
+            { id: 'ICD_10_SE', label: 'ICD-10-SE' },
+            { id: 'KSH_97_P', label: 'KSH97-P (Primärvård)' },
+          ],
+        }),
+        value: {
+          list: [{ id: 'id', code: 'F501', description: 'Diagnos 😀', terminology: 'ICD_10_SE' }],
+        },
+      }).id,
+    })
+
+    expect(screen.getByTestId('id-diagnos')).toHaveValue('Diagnos ')
+    expect(screen.getByText(/Tecken som inte stöds/, { exact: false })).toBeInTheDocument()
+  })
+
+  it('should not show warning when description is prefilled with clean text', () => {
+    renderComponent({
+      question: fakeDiagnosesElement({
+        id: 'id',
+        config: fakeCertificateConfig.diagnoses({
+          list: [{ id: 'id' }],
+          terminology: [
+            { id: 'ICD_10_SE', label: 'ICD-10-SE' },
+            { id: 'KSH_97_P', label: 'KSH97-P (Primärvård)' },
+          ],
+        }),
+        value: {
+          list: [{ id: 'id', code: 'F501', description: 'Clean åäö', terminology: 'ICD_10_SE' }],
+        },
+      }).id,
+    })
+
+    expect(screen.getByTestId('id-diagnos')).toHaveValue('Clean åäö')
+    expect(screen.queryByText(/Tecken som inte stöds/, { exact: false })).not.toBeInTheDocument()
+  })
 })

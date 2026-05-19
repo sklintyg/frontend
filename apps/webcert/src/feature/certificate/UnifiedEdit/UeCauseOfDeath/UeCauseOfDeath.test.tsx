@@ -116,4 +116,24 @@ describe('Cause of death component', () => {
     await userEvent.clear(input)
     expect(screen.queryByText(/Tecken som inte stöds/, { exact: false })).not.toBeInTheDocument()
   })
+
+  it('should show warning and display sanitized description when prefilled with unsupported characters', () => {
+    renderComponent({
+      disabled: false,
+      question: merge(question, { value: { description: { text: 'Beskrivning 😀' } } }),
+    })
+
+    expect(screen.getByLabelText('Beskrivning')).toHaveValue('Beskrivning ')
+    expect(screen.getByText(/Tecken som inte stöds/, { exact: false })).toBeInTheDocument()
+  })
+
+  it('should not show warning when description is prefilled with clean text', () => {
+    renderComponent({
+      disabled: false,
+      question: merge(question, { value: { description: { text: 'Clean åäö' } } }),
+    })
+
+    expect(screen.getByLabelText('Beskrivning')).toHaveValue('Clean åäö')
+    expect(screen.queryByText(/Tecken som inte stöds/, { exact: false })).not.toBeInTheDocument()
+  })
 })
