@@ -6,10 +6,10 @@ export function ServiceLink({ mobile }: { mobile?: boolean }) {
   const { data: links } = useGetLinksQuery()
 
   return (
-    <p className="text-white">
+    <p>
       Rehabstöd drivs av{' '}
       {links?.ineraMainPage && (
-        <IDSLink colorPreset={mobile ? undefined : 3} small underlined>
+        <IDSLink colorPreset={3} small underlined>
           <a href={links.ineraMainPage.url} target="_blank" rel="noreferrer">
             {links.ineraMainPage.text}
             <Icon icon="external-link-small" textEnd />
