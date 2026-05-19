@@ -149,11 +149,15 @@ exports[`Should render footer as expected 1`] = `
             class="ids-mobile-menu-item__inner ids-mobile-menu-item__inner--level-1"
           >
             <a
+              class="inline-flex items-center"
               href="https://insecure-ophthalmologist.com"
               rel="noreferrer"
               target="_blank"
             >
               ineraManualRehabstod
+              <span
+                class="ids-icon-external-link-small ids-icon--text-end"
+              />
             </a>
           </div>
           <div
@@ -168,11 +172,15 @@ exports[`Should render footer as expected 1`] = `
             class="ids-mobile-menu-item__inner ids-mobile-menu-item__inner--level-1"
           >
             <a
+              class="inline-flex items-center"
               href="http://wrong-elephant.com"
               rel="noreferrer"
               target="_blank"
             >
               ineraNationellKundservice
+              <span
+                class="ids-icon-external-link-small ids-icon--text-end"
+              />
             </a>
           </div>
           <div
@@ -187,11 +195,15 @@ exports[`Should render footer as expected 1`] = `
             class="ids-mobile-menu-item__inner ids-mobile-menu-item__inner--level-1"
           >
             <a
+              class="inline-flex items-center"
               href="http://new-adrenalin.info"
               rel="noreferrer"
               target="_blank"
             >
               Tillgänglighetsredogörelse
+              <span
+                class="ids-icon-external-link-small ids-icon--text-end"
+              />
             </a>
           </div>
           <div
