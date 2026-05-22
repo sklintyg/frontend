@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { useEffect } from 'react'
 import styled from 'styled-components'
 import DatePickerCustom from '../../../../components/Inputs/DatePickerCustom/DatePickerCustom'
 import Dropdown from '../../../../components/Inputs/Dropdown'
@@ -70,7 +71,15 @@ const UeCauseOfDeathControl = ({
   const textValidation = validation
     ? (validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
     : undefined
-  const { sanitize, showWarning } = useIso8859Sanitization()
+  const rawInitialDesc = value.description.text ?? ''
+  const { sanitize, showWarning, sanitizedInitialValue: sanitizedInitialDesc } = useIso8859Sanitization(rawInitialDesc)
+
+  useEffect(() => {
+    if (!disabled && sanitizedInitialDesc !== rawInitialDesc) {
+      onChange({ ...value, description: { ...value.description, text: sanitizedInitialDesc } })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const emptyValidationError = validationErrors.filter((e) => e.type === 'EMPTY')
   const nonEmptyValidationErrors = validationErrors.filter((e) => e.type !== 'EMPTY')

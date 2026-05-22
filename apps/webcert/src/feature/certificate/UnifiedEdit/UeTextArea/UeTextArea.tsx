@@ -1,5 +1,5 @@
 import { debounce } from 'lodash-es'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import TextArea from '../../../../components/Inputs/TextArea'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
@@ -18,13 +18,14 @@ interface Props {
 const UeTextArea = ({ question, disabled }: Props) => {
   const textValue = getTextValue(question)
   const questionConfig = question.config as ConfigUeTextArea
-  const [text, setText] = useState(textValue != null ? textValue.text : '')
+  const rawInitialText = textValue?.text ?? ''
   const dispatch = useAppDispatch()
   const validationErrors = useAppSelector(getVisibleValidationErrors(question.id))
   const textValidation = question.validation
     ? (question.validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
     : undefined
-  const { sanitize, showWarning } = useIso8859Sanitization()
+  const { sanitize, showWarning, sanitizedInitialValue } = useIso8859Sanitization(rawInitialText)
+  const [text, setText] = useState(sanitizedInitialValue)
 
   const dispatchEditDraft = useRef(
     debounce((question: CertificateDataElement, value: string) => {
@@ -32,6 +33,13 @@ const UeTextArea = ({ question, disabled }: Props) => {
       dispatch(updateCertificateDataElement(updatedValue))
     }, 1000)
   ).current
+
+  useEffect(() => {
+    if (!disabled && sanitizedInitialValue !== rawInitialText) {
+      dispatch(updateCertificateDataElement(getUpdatedValue(question, sanitizedInitialValue)))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   if (!textValue) {
     return <div>Value not supported!</div>

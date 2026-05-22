@@ -8,7 +8,7 @@ import { fakeCertificate, fakeMedicalInvestigationListElement } from '../../../.
 import { showValidationErrors, updateCertificate, validateCertificateSuccess } from '../../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
-import type { ConfigUeMedicalInvestigationList } from '../../../../types'
+import type { ConfigUeMedicalInvestigationList, ValueMedicalInvestigationList } from '../../../../types'
 import { UeMedicalInvestigationList } from './UeMedicalInvestigationList'
 
 faker.seed(10)
@@ -253,6 +253,30 @@ describe('Medical investigation component', () => {
     expect(screen.getByText(/Tecken som inte stöds/, { exact: false })).toBeInTheDocument()
 
     await userEvent.clear(inputs[1])
+    expect(screen.queryByText(/Tecken som inte stöds/, { exact: false })).not.toBeInTheDocument()
+  })
+
+  it('should show warning and display sanitized text when information source is prefilled with unsupported characters', () => {
+    const prefillQuestion = {
+      ...question,
+      value: {
+        ...(question.value as ValueMedicalInvestigationList),
+        list: (question.value as ValueMedicalInvestigationList).list.map((item, i) =>
+          i === 0 ? { ...item, informationSource: { ...item.informationSource, text: 'Källa 😀' } } : item
+        ),
+      },
+    }
+
+    testStore.dispatch(updateCertificate(fakeCertificate({ data: { [QUESTION_ID]: prefillQuestion } })))
+    renderComponent({ disabled: false, question: prefillQuestion })
+
+    const inputs = screen.getAllByRole('textbox')
+    expect(inputs[1]).toHaveValue('Källa ')
+    expect(screen.getByText(/Tecken som inte stöds/, { exact: false })).toBeInTheDocument()
+  })
+
+  it('should not show warning when information source is prefilled with clean text', () => {
+    renderComponent({ disabled: false, question })
     expect(screen.queryByText(/Tecken som inte stöds/, { exact: false })).not.toBeInTheDocument()
   })
 })

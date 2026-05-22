@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import styled from 'styled-components'
 import DatePickerCustom from '../../../../components/Inputs/DatePickerCustom/DatePickerCustom'
 import Dropdown from '../../../../components/Inputs/Dropdown'
@@ -69,7 +70,18 @@ export function UeMedicalInvestigation({
   const textValidation = validation
     ? (validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
     : undefined
-  const { sanitize, showWarning } = useIso8859Sanitization()
+  const rawInitialSource = incomingValue?.informationSource.text ?? ''
+  const { sanitize, showWarning, sanitizedInitialValue: sanitizedInitialSource } = useIso8859Sanitization(rawInitialSource)
+
+  useEffect(() => {
+    if (!disabled && sanitizedInitialSource !== rawInitialSource && incomingValue) {
+      onChange({
+        ...incomingValue,
+        informationSource: { ...incomingValue.informationSource, text: sanitizedInitialSource || null },
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const typeOptions: ConfigUeCodeItem[] = [{ id: '', label: 'Välj...', code: '' }, ...config.typeOptions]
 
