@@ -25,7 +25,7 @@ const InfoBoxWrapper = styled.div`
 const MODAL_BODY_TEXT =
   'När text klistras in omvandlas den till ren text och alla otillåtna symboler och dold formatering rensas bort. ' +
   'Detta för att säkerställa att intyget går att signera och hanteras av intygsmottagaren.\n\n' +
-  'Exempel på otillåtna symboler och dold formatering är exempelvis emojis, dolda mellanslag och tabb (indrag). '
+  'Exempel på otillåtna symboler och dold formatering är emojis och dolda mellanslag. '
 
 interface Props {
   visible: boolean
