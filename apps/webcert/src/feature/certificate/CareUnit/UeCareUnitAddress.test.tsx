@@ -174,4 +174,54 @@ describe('CareUnitAddress component', () => {
     await userEvent.clear(addressInput)
     expect(screen.queryByText(/Tecken som inte stöds/, { exact: false })).not.toBeInTheDocument()
   })
+
+  it('should show warning and display sanitized address when prefilled with unsupported characters', () => {
+    store.dispatch(
+      updateCertificate(
+        fakeCertificate({
+          metadata: fakeCertificateMetaData({
+            unit: fakeUnit({ address: 'Gatan 😀 1' }),
+          }),
+          links: [fakeResourceLink({ type: ResourceLinkType.EDIT_CERTIFICATE })],
+        })
+      )
+    )
+    renderComponent()
+
+    expect(screen.getByRole('textbox', { name: /postadress/i })).toHaveValue('Gatan  1')
+    expect(screen.getByText(/Tecken som inte stöds/, { exact: false })).toBeInTheDocument()
+  })
+
+  it('should show warning and display sanitized city when prefilled with unsupported characters', () => {
+    store.dispatch(
+      updateCertificate(
+        fakeCertificate({
+          metadata: fakeCertificateMetaData({
+            unit: fakeUnit({ city: 'Stad 😀' }),
+          }),
+          links: [fakeResourceLink({ type: ResourceLinkType.EDIT_CERTIFICATE })],
+        })
+      )
+    )
+    renderComponent()
+
+    expect(screen.getByRole('textbox', { name: /postort/i })).toHaveValue('Stad ')
+    expect(screen.getByText(/Tecken som inte stöds/, { exact: false })).toBeInTheDocument()
+  })
+
+  it('should not show warning when address and city are prefilled with clean text', () => {
+    store.dispatch(
+      updateCertificate(
+        fakeCertificate({
+          metadata: fakeCertificateMetaData({
+            unit: fakeUnit({ address: 'Storgatan 1', city: 'Stockholm' }),
+          }),
+          links: [fakeResourceLink({ type: ResourceLinkType.EDIT_CERTIFICATE })],
+        })
+      )
+    )
+    renderComponent()
+
+    expect(screen.queryByText(/Tecken som inte stöds/, { exact: false })).not.toBeInTheDocument()
+  })
 })

@@ -1,5 +1,5 @@
 import { debounce, isEqual } from 'lodash-es'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import TextArea from '../../../components/Inputs/TextArea'
 import QuestionValidationTexts from '../../../components/Validation/QuestionValidationTexts'
@@ -71,10 +71,26 @@ const UeCareUnitAddress = () => {
   const unit = useAppSelector(getUnit(), isEqual)
   const disabled = useAppSelector(getIsLocked)
   const editable = useAppSelector(getIsEditable)
-  const [careUnitInfo, setCareUnitInfo] = useState<Unit>(unit)
 
-  const { sanitize: sanitizeAddress, showWarning: showAddressWarning } = useIso8859Sanitization()
-  const { sanitize: sanitizeCity, showWarning: showCityWarning } = useIso8859Sanitization()
+  const {
+    sanitize: sanitizeAddress,
+    showWarning: showAddressWarning,
+    sanitizedInitialValue: sanitizedInitialAddress,
+  } = useIso8859Sanitization(unit.address ?? '')
+  const {
+    sanitize: sanitizeCity,
+    showWarning: showCityWarning,
+    sanitizedInitialValue: sanitizedInitialCity,
+  } = useIso8859Sanitization(unit.city ?? '')
+  const [careUnitInfo, setCareUnitInfo] = useState<Unit>({ ...unit, address: sanitizedInitialAddress, city: sanitizedInitialCity })
+
+  useEffect(() => {
+    const hasChanges = sanitizedInitialAddress !== (unit.address ?? '') || sanitizedInitialCity !== (unit.city ?? '')
+    if (!disabled && editable && hasChanges) {
+      dispatch(updateCertificateUnit({ ...unit, address: sanitizedInitialAddress, city: sanitizedInitialCity }))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const addressValidationErrors = getValidationErrors(validationErrors, CARE_UNIT_ADDRESS_FIELD)
   const zipCodeValidationErrors = getValidationErrors(validationErrors, CARE_UNIT_ZIP_CODE_FIELD)

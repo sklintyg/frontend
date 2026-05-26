@@ -1,5 +1,5 @@
 import { debounce } from 'lodash-es'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import TextInput from '../../../../components/Inputs/TextInput'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
 import { updateCertificateDataElement } from '../../../../store/certificate/certificateActions'
@@ -18,13 +18,21 @@ interface Props {
 const UeTextField = ({ question, disabled }: Props) => {
   const textValue = getTextValue(question)
   const questionConfig = question.config as ConfigUeTextField
-  const [text, setText] = useState(textValue != null ? textValue.text : '')
+  const rawInitialText = textValue?.text ?? ''
   const dispatch = useAppDispatch()
   const validationErrors = useAppSelector(getVisibleValidationErrors(question.id))
   const textValidation = question.validation
     ? (question.validation.find((v) => v.type === CertificateDataValidationType.TEXT_VALIDATION) as TextValidation)
     : undefined
-  const { sanitize, showWarning } = useIso8859Sanitization()
+  const { sanitize, showWarning, sanitizedInitialValue } = useIso8859Sanitization(rawInitialText)
+  const [text, setText] = useState(sanitizedInitialValue)
+
+  useEffect(() => {
+    if (!disabled && sanitizedInitialValue !== rawInitialText) {
+      dispatch(updateCertificateDataElement(getUpdatedValue(question, sanitizedInitialValue)))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const dispatchEditDraft = useRef(
     debounce((question: CertificateDataElement, value: string) => {
