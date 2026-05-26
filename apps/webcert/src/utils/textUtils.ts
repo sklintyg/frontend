@@ -25,6 +25,7 @@ export const filterUnsupportedCharacters = (text: string): FilterUnsupportedChar
       const isAllowed =
         code === 0x0a || // newline
         code === 0x0d || // carriage return
+        code === 0x09 || // horizontal tab
         (code >= 0x20 && code <= 0x7e) || // standard ASCII printable
         (code >= 0xa0 && code <= 0xff) // Latin-1 supplement
       if (!isAllowed) {
