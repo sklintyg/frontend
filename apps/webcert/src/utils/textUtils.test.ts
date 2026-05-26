@@ -27,10 +27,10 @@ describe('filterUnsupportedCharacters', () => {
     expect(hasRemovedCharacters).toBe(true)
   })
 
-  it('should remove tab characters', () => {
+  it('should preserve tab characters', () => {
     const { sanitized, hasRemovedCharacters } = filterUnsupportedCharacters('before\tafter')
-    expect(sanitized).toBe('beforeafter')
-    expect(hasRemovedCharacters).toBe(true)
+    expect(sanitized).toBe('before\tafter')
+    expect(hasRemovedCharacters).toBe(false)
   })
 
   it('should preserve newline characters', () => {
