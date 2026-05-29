@@ -21,6 +21,8 @@ import TextArea from '../Inputs/TextArea'
 import ValidationText from '../Validation/ValidationText'
 import ButtonWithConfirmModal from '../utils/Modal/ButtonWithConfirmModal'
 import StatusWithIcon from '../utils/StatusWithIcon'
+import useIso8859Sanitization from '../../feature/certificate/UnifiedEdit/hooks/useIso8859Sanitization'
+import InvalidCharactersInfoBox from '../../feature/certificate/UnifiedEdit/InvalidCharactersInfoBox'
 
 interface Props {
   questionDraft: Question
@@ -43,10 +45,11 @@ const QuestionForm = ({ questionDraft }: Props) => {
   const isMissingType = useAppSelector(isQuestionMissingType)
   const isMissingMessage = useAppSelector(isQuestionMissingMessage)
   const showValidationMessages = useAppSelector(isDisplayValidationMessages)
-  const [message, setMessage] = useState(questionDraft.message)
   const messageTypes = useAppSelector(getCertificateMessageTypes, shallowEqual)
   const isFunctionDisabled = useAppSelector(isQuestionFunctionDisabled)
   const MAX_NUMBER_OF_ALLOWED_CHARACTERS: number = 4999
+  const { sanitize, showWarning, sanitizedInitialValue: sanitizedInitialDesc } = useIso8859Sanitization(questionDraft.message)
+  const [message, setMessage] = useState(sanitizedInitialDesc)
 
   useEffect(() => {
     setMessage(questionDraft.message)
@@ -65,9 +68,10 @@ const QuestionForm = ({ questionDraft }: Props) => {
   ).current
 
   const onTextAreaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    dispatchEditDraft(questionDraft, event.currentTarget.value)
+    const sanitized = sanitize(event.currentTarget.value)
+    dispatchEditDraft(questionDraft, sanitized)
     dispatch(updateQuestionDraftSaved(false))
-    setMessage(event.currentTarget.value)
+    setMessage(sanitized)
   }
 
   const handleSendQuestion = () => {
@@ -119,6 +123,7 @@ const QuestionForm = ({ questionDraft }: Props) => {
               <ValidationText id="showMessageValidationError" message="Skriv ett meddelande för att kunna skicka frågan." />
             )}
           </div>
+          <InvalidCharactersInfoBox visible={showWarning} />
           <QuestionFormFooter>
             <div className="ic-forms__group ic-button-group iu-my-400">
               <CustomButton

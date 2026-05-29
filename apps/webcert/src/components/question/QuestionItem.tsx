@@ -27,6 +27,8 @@ import { ExpandableText } from '../utils/ExpandableText'
 import ButtonWithConfirmModal from '../utils/Modal/ButtonWithConfirmModal'
 import CheckboxWithConfirmModal from '../utils/Modal/CheckboxWithConfirmModal'
 import StatusWithIcon from '../utils/StatusWithIcon'
+import InvalidCharactersInfoBox from '../../feature/certificate/UnifiedEdit/InvalidCharactersInfoBox'
+import useIso8859Sanitization from '../../feature/certificate/UnifiedEdit/hooks/useIso8859Sanitization'
 import fkImg from './fk.png'
 
 // TODO: Replace color with var(--color-grey-400)
@@ -122,7 +124,8 @@ const QuestionItem = ({ question }: Props) => {
   const isSaved = useSelector(isAnswerDraftSaved(question.id))
   const isFormEmpty = !question.answer?.message
   const incommingMessage = question.answer?.message ?? ''
-  const [message, setMessage] = useState(incommingMessage)
+  const { sanitize, showWarning, sanitizedInitialValue } = useIso8859Sanitization(incommingMessage)
+  const [message, setMessage] = useState(sanitizedInitialValue)
   const isFunctionDisabled = useSelector(isQuestionFunctionDisabled)
   const MAX_NUMBER_OF_ALLOWED_CHARACTERS: number = 4999
 
@@ -138,9 +141,10 @@ const QuestionItem = ({ question }: Props) => {
   ).current
 
   const onTextAreaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    dispatchEditAnswer(question, event.currentTarget.value)
+    const sanitized = sanitize(event.currentTarget.value)
+    dispatchEditAnswer(question, sanitized)
     dispatch(updateAnswerDraftSaved({ questionId: question.id, isAnswerDraftSaved: false }))
-    setMessage(event.currentTarget.value)
+    setMessage(sanitized)
   }
 
   const getImageSrc = (author: string) => {
@@ -356,6 +360,7 @@ const QuestionItem = ({ question }: Props) => {
         <>
           <div className="ic-forms__group">
             <TextArea value={message} maxLength={MAX_NUMBER_OF_ALLOWED_CHARACTERS} onChange={onTextAreaChange} />
+            <InvalidCharactersInfoBox visible={showWarning} />
           </div>
           <QuestionFormFooter>
             <div className="ic-forms__group ic-button-group iu-my-400">
