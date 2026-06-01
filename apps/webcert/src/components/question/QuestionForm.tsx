@@ -48,8 +48,16 @@ const QuestionForm = ({ questionDraft }: Props) => {
   const messageTypes = useAppSelector(getCertificateMessageTypes, shallowEqual)
   const isFunctionDisabled = useAppSelector(isQuestionFunctionDisabled)
   const MAX_NUMBER_OF_ALLOWED_CHARACTERS: number = 4999
-  const { sanitize, showWarning, sanitizedInitialValue: sanitizedInitialDesc } = useIso8859Sanitization(questionDraft.message)
+  const rawInitialMessage = questionDraft.message
+  const { sanitize, showWarning, sanitizedInitialValue: sanitizedInitialDesc } = useIso8859Sanitization(rawInitialMessage)
   const [message, setMessage] = useState(sanitizedInitialDesc)
+
+  useEffect(() => {
+    if (sanitizedInitialDesc !== rawInitialMessage) {
+      dispatch(editQuestion({ ...questionDraft, message: sanitizedInitialDesc }))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     setMessage(questionDraft.message)

@@ -130,6 +130,13 @@ const QuestionItem = ({ question }: Props) => {
   const MAX_NUMBER_OF_ALLOWED_CHARACTERS: number = 4999
 
   useEffect(() => {
+    if (question.answer && sanitizedInitialValue !== incommingMessage) {
+      dispatch(editAnswer({ questionId: question.id, answer: { ...question.answer, message: sanitizedInitialValue } as Answer }))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
     setMessage(incommingMessage)
   }, [incommingMessage])
 
