@@ -3,6 +3,7 @@ import { filterUnsupportedCharacters } from '../../../../utils/textUtils'
 
 interface UseIso8859SanitizationResult {
   sanitize: (input: string) => string
+  resetWarning: () => void
   showWarning: boolean
   sanitizedInitialValue: string
 }
@@ -38,7 +39,9 @@ const useIso8859Sanitization = (initialValue?: string): UseIso8859SanitizationRe
     return sanitized
   }
 
-  return { sanitize, showWarning, sanitizedInitialValue }
+  const resetWarning = () => setShowWarning(false)
+
+  return { sanitize, resetWarning, showWarning, sanitizedInitialValue }
 }
 
 export default useIso8859Sanitization
