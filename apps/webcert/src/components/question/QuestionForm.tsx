@@ -49,7 +49,7 @@ const QuestionForm = ({ questionDraft }: Props) => {
   const isFunctionDisabled = useAppSelector(isQuestionFunctionDisabled)
   const MAX_NUMBER_OF_ALLOWED_CHARACTERS: number = 4999
   const rawInitialMessage = questionDraft.message
-  const { sanitize, showWarning, sanitizedInitialValue: sanitizedInitialDesc } = useIso8859Sanitization(rawInitialMessage)
+  const { sanitize, resetWarning, showWarning, sanitizedInitialValue: sanitizedInitialDesc } = useIso8859Sanitization(rawInitialMessage)
   const [message, setMessage] = useState(sanitizedInitialDesc)
 
   useEffect(() => {
@@ -84,10 +84,12 @@ const QuestionForm = ({ questionDraft }: Props) => {
 
   const handleSendQuestion = () => {
     dispatchEditDraft.cancel()
+    resetWarning()
     dispatch(sendQuestion(questionDraft))
   }
 
   const handleDeleteQuestion = () => {
+    resetWarning()
     dispatch(deleteQuestion(questionDraft))
   }
 

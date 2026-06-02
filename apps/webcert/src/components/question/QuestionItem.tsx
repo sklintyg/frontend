@@ -124,7 +124,7 @@ const QuestionItem = ({ question }: Props) => {
   const isSaved = useSelector(isAnswerDraftSaved(question.id))
   const isFormEmpty = !question.answer?.message
   const incommingMessage = question.answer?.message ?? ''
-  const { sanitize, showWarning, sanitizedInitialValue } = useIso8859Sanitization(incommingMessage)
+  const { sanitize, resetWarning, showWarning, sanitizedInitialValue } = useIso8859Sanitization(incommingMessage)
   const [message, setMessage] = useState(sanitizedInitialValue)
   const isFunctionDisabled = useSelector(isQuestionFunctionDisabled)
   const MAX_NUMBER_OF_ALLOWED_CHARACTERS: number = 4999
@@ -160,9 +160,15 @@ const QuestionItem = ({ question }: Props) => {
 
   const handleCreateAnswer = () => dispatch(createAnswer(question))
 
-  const handleSendAnswer = () => dispatch(sendAnswer({ questionId: question.id, answer: { ...question.answer } as Answer }))
+  const handleSendAnswer = () => {
+    resetWarning()
+    dispatch(sendAnswer({ questionId: question.id, answer: { ...question.answer } as Answer }))
+  }
 
-  const handleDeleteAnswer = () => dispatch(deleteAnswer(question))
+  const handleDeleteAnswer = () => {
+    resetWarning()
+    dispatch(deleteAnswer(question))
+  }
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) =>
     dispatch(
