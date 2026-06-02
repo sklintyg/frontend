@@ -9,7 +9,13 @@ import { apiCallBegan } from '../../store/api/apiActions'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { addRequest } from '../../store/api/requestSlice'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
-import { editAnswer, gotoComplement, toggleQuestionFunctionDisabler, updateAnswerDraftSaved, updateQuestion } from '../../store/question/questionActions'
+import {
+  editAnswer,
+  gotoComplement,
+  toggleQuestionFunctionDisabler,
+  updateAnswerDraftSaved,
+  updateQuestion,
+} from '../../store/question/questionActions'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
 import { getQuestions } from '../../store/question/questionSelectors'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../store/test/dispatchHelperMiddleware'
