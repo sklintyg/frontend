@@ -1,16 +1,17 @@
 import { getByType } from '@frontend/utils'
 import type { AnyAction, EnhancedStore } from '@reduxjs/toolkit'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { isEqual } from 'lodash-es'
-import { Provider } from 'react-redux'
+import { Provider, useSelector } from 'react-redux'
 import { MemoryRouter } from 'react-router-dom'
 import { apiCallBegan } from '../../store/api/apiActions'
 import { apiMiddleware } from '../../store/api/apiMiddleware'
 import { addRequest } from '../../store/api/requestSlice'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
-import { gotoComplement, toggleQuestionFunctionDisabler, updateAnswerDraftSaved } from '../../store/question/questionActions'
+import { editAnswer, gotoComplement, toggleQuestionFunctionDisabler, updateAnswerDraftSaved, updateQuestion } from '../../store/question/questionActions'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
+import { getQuestions } from '../../store/question/questionSelectors'
 import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import type { Complement, Question } from '../../types'
 import { QuestionType, ResourceLinkType } from '../../types'
@@ -175,6 +176,21 @@ const renderComponent = (question: Question) => {
     <Provider store={testStore}>
       <MemoryRouter>
         <QuestionItem question={question} />
+      </MemoryRouter>
+    </Provider>
+  )
+}
+
+const renderFromStore = () => {
+  const ConnectedQuestionItem = () => {
+    const questions = useSelector(getQuestions)
+    if (questions.length === 0) return null
+    return <QuestionItem question={questions[0]} />
+  }
+  render(
+    <Provider store={testStore}>
+      <MemoryRouter>
+        <ConnectedQuestionItem />
       </MemoryRouter>
     </Provider>
   )
@@ -668,6 +684,54 @@ describe('QuestionItem', () => {
       question.forwarded = false
       renderComponent(question)
       expect(screen.queryByText('Vidarebefordrad')).not.toBeInTheDocument()
+    })
+  })
+
+  describe('sanitization of answer draft from backend', () => {
+    beforeEach(() => {
+      testStore = setupStore()
+    })
+
+    afterEach(() => {
+      clearDispatchedActions()
+    })
+
+    it('dispatches editAnswer on mount when answer draft contains invalid characters', () => {
+      const invalidMessage = 'Hello \u{1F600} world'
+      const sanitizedMessage = 'Hello  world'
+      const question = addAnswerDraftToQuestion(createQuestion(), invalidMessage)
+      renderComponent(question)
+
+      const action = dispatchedActions.find(editAnswer.match)
+      expect(action?.payload.answer.message).toEqual(sanitizedMessage)
+    })
+
+    it('does not dispatch editAnswer on mount when answer draft has no invalid characters', () => {
+      const validMessage = 'Hello world'
+      const question = addAnswerDraftToQuestion(createQuestion(), validMessage)
+      renderComponent(question)
+
+      const action = dispatchedActions.find(editAnswer.match)
+      expect(action).toBeUndefined()
+    })
+
+    it('displays the sanitized message in the textarea when answer draft contains invalid characters', async () => {
+      const invalidMessage = 'Hello \u{1F600} world'
+      const sanitizedMessage = 'Hello  world'
+      const question = addAnswerDraftToQuestion(createQuestion(), invalidMessage)
+      testStore.dispatch(updateQuestion(question))
+      renderFromStore()
+
+      await act(async () => {})
+
+      expect(screen.getByRole('textbox')).toHaveValue(sanitizedMessage)
+    })
+
+    it('does not dispatch editAnswer on mount when question has no answer draft', () => {
+      renderComponent(createQuestion())
+
+      const action = dispatchedActions.find(editAnswer.match)
+      expect(action).toBeUndefined()
     })
   })
 })
