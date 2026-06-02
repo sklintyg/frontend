@@ -80,13 +80,13 @@ export const validateExpression = (expression: string, value: ValueType): boolea
               if (typeof val === 'number') {
                 return epochDaysAdjustedToTimezone(fromUnixTime(val))
               }
-              return NaN
+              return Number.NaN
             },
             days: (val: unknown) => {
               if (typeof val === 'number') {
                 return differenceInDays(startOfDay(fromUnixTime(val)), startOfToday())
               }
-              return NaN
+              return Number.NaN
             },
             uncertainDate: (val: unknown) => {
               if (typeof val === 'string') {
@@ -96,6 +96,12 @@ export const validateExpression = (expression: string, value: ValueType): boolea
             },
             exists: (val: unknown) => val != null,
             empty: (val: unknown) => val == null || val === '' || (Array.isArray(val) && val.length === 0),
+            today: (val: unknown) => {
+              if (typeof val === 'number') {
+                return differenceInDays(startOfDay(fromUnixTime(val)), startOfToday()) === 0
+              }
+              return Number.NaN
+            },
           },
         })(getKeyValuePair(value))
       )
