@@ -486,6 +486,48 @@ describe('validateExpression', () => {
       })
     })
 
+    describe('today', () => {
+      it('Should return true when date is today', () => {
+        expect(
+          validateExpression('today(ID)', {
+            type: CertificateDataValueType.DATE,
+            id: 'ID',
+            date: format(SYSTEM_DATE, 'yyyy-MM-dd'),
+          })
+        ).toBe(true)
+      })
+
+      it('Should return false when date is yesterday', () => {
+        expect(
+          validateExpression('today(ID)', {
+            type: CertificateDataValueType.DATE,
+            id: 'ID',
+            date: format(subDays(SYSTEM_DATE, 1), 'yyyy-MM-dd'),
+          })
+        ).toBe(false)
+      })
+
+      it('Should return false when date is tomorrow', () => {
+        expect(
+          validateExpression('today(ID)', {
+            type: CertificateDataValueType.DATE,
+            id: 'ID',
+            date: format(addDays(SYSTEM_DATE, 1), 'yyyy-MM-dd'),
+          })
+        ).toBe(false)
+      })
+
+      it('Should return false when value is not a date', () => {
+        expect(
+          validateExpression('today(ID)', {
+            type: CertificateDataValueType.TEXT,
+            id: 'ID',
+            text: format(SYSTEM_DATE, 'yyyy-MM-dd'),
+          })
+        ).toBe(false)
+      })
+    })
+
     describe('empty', () => {
       it('Should return true when value is null', () => {
         expect(validateExpression('empty(ID)', { type: CertificateDataValueType.BOOLEAN, id: 'ID', selected: undefined })).toBe(true)
