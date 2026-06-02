@@ -1,9 +1,9 @@
 import type { EnhancedStore } from '@reduxjs/toolkit'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import { Provider } from 'react-redux'
+import { Provider, useSelector } from 'react-redux'
 import { MemoryRouter } from 'react-router-dom'
 import { vi } from 'vitest'
 import { fakeCertificate, fakeCertificateMetaData } from '../../faker'
@@ -15,6 +15,7 @@ import { configureApplicationStore } from '../../store/configureApplicationStore
 import {
   createQuestion,
   deleteQuestion,
+  editQuestion,
   getQuestionsError,
   getQuestionsStarted,
   getQuestionsSuccess,
@@ -26,6 +27,8 @@ import {
   validateQuestion,
 } from '../../store/question/questionActions'
 import { questionMiddleware } from '../../store/question/questionMiddleware'
+import { getQuestionDraft } from '../../store/question/questionSelectors'
+import dispatchHelperMiddleware, { clearDispatchedActions, dispatchedActions } from '../../store/test/dispatchHelperMiddleware'
 import type { Question } from '../../types'
 import { QuestionType } from '../../types'
 import { flushPromises } from '../../utils/flushPromises'
@@ -44,14 +47,29 @@ const renderComponent = (questionDraft?: Question) => {
   )
 }
 
+const renderFromStore = () => {
+  const ConnectedQuestionForm = () => {
+    const questionDraft = useSelector(getQuestionDraft)
+    return <QuestionForm questionDraft={questionDraft} />
+  }
+  render(
+    <Provider store={testStore}>
+      <MemoryRouter>
+        <ConnectedQuestionForm />
+      </MemoryRouter>
+    </Provider>
+  )
+}
+
 describe('QuestionForm', () => {
   beforeEach(() => {
     fakeAxios = new MockAdapter(axios)
-    testStore = configureApplicationStore([apiMiddleware, questionMiddleware, certificateMiddleware])
+    testStore = configureApplicationStore([dispatchHelperMiddleware, apiMiddleware, questionMiddleware, certificateMiddleware])
   })
 
   afterEach(() => {
     vi.clearAllTimers()
+    clearDispatchedActions()
   })
 
   it('renders without crashing', () => {
@@ -281,6 +299,39 @@ describe('QuestionForm', () => {
 
       flushPromises()
       expect(fakeAxios.history.delete.length).toBe(0)
+    })
+  })
+
+  describe('sanitization of draft from backend', () => {
+    it('dispatches editQuestion on mount when draft message contains invalid characters', () => {
+      const invalidMessage = 'Hello \u{1F600} world'
+      const sanitizedMessage = 'Hello  world'
+      const questionDraft = { ...testStore.getState().ui.uiQuestion.questionDraft, message: invalidMessage }
+      renderComponent(questionDraft)
+
+      const action = dispatchedActions.find(editQuestion.match)
+      expect(action?.payload.message).toEqual(sanitizedMessage)
+    })
+
+    it('does not dispatch editQuestion on mount when draft message has no invalid characters', () => {
+      const validMessage = 'Hello world'
+      const questionDraft = { ...testStore.getState().ui.uiQuestion.questionDraft, message: validMessage }
+      renderComponent(questionDraft)
+
+      const action = dispatchedActions.find(editQuestion.match)
+      expect(action).toBeUndefined()
+    })
+
+    it('displays the sanitized message in the textarea when draft contains invalid characters', async () => {
+      const invalidMessage = 'Hello \u{1F600} world'
+      const sanitizedMessage = 'Hello  world'
+      const questionDraft = { ...testStore.getState().ui.uiQuestion.questionDraft, message: invalidMessage }
+      testStore.dispatch(updateQuestionDraft(questionDraft))
+      renderFromStore()
+
+      await act(async () => {})
+
+      expect(screen.getByRole('textbox')).toHaveValue(sanitizedMessage)
     })
   })
 })
