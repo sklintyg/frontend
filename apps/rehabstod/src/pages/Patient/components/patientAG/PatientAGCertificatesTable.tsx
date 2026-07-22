@@ -24,7 +24,7 @@ export function PatientAGCertificatesTable() {
   })
 
   const [tableState, setTableState] = useState<{ sortColumn: string; ascending: boolean }>({
-    sortColumn: PatientColumn.Num,
+    sortColumn: PatientColumn.Startdatum,
     ascending: false,
   })
   const showPersonalInformation = useAppSelector((state) => state.settings.showPersonalInformation)
