@@ -7,15 +7,16 @@ import { AGCertificatesTableCellResolver } from './AGCertificatesTableCellResolv
 
 export function AGCertificatesTableBody({ content, columns }: { content: AGCertificate[]; columns: TableColumn[] }) {
   const { sortTableList } = useTableContext()
+  const sortedList = sortTableList(content, getAGCertificatesTableValue)
 
   return (
     <tbody className="whitespace-normal break-words">
-      {sortTableList(content, getAGCertificatesTableValue).map(
+      {sortedList.map(
         (item) =>
           columns.length > 0 && (
             <TableRow key={`${item.certificateId}-row`} italic={false} data={item}>
               {columns.map(({ name }) => (
-                <AGCertificatesTableCellResolver key={`${item.certificateId}${name}`} column={name} data={item} list={content} />
+                <AGCertificatesTableCellResolver key={`${item.certificateId}${name}`} column={name} data={item} list={sortedList} />
               ))}
             </TableRow>
           )
