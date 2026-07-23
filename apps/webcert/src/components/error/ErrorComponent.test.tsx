@@ -1,7 +1,7 @@
 import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom'
+import { MemoryRouter, Outlet, Route, Routes, useLocation } from 'react-router-dom'
 import { configureApplicationStore } from '../../store/configureApplicationStore'
 import { throwError } from '../../store/error/errorActions'
 import { errorMiddleware } from '../../store/error/errorMiddleware'
@@ -37,7 +37,7 @@ const setErrorState = (type: ErrorType, errorCode: ErrorCode) => {
 
 function ErrorPage() {
   const location = useLocation()
-  return <>{location.state.errorCode}</>
+  return <>{location.state?.errorCode ?? 'no-state'}</>
 }
 
 const renderComponent = () => {
@@ -47,6 +47,28 @@ const renderComponent = () => {
         <Routes>
           <Route path="/" element={<ErrorComponent />} />
           <Route path="/error" element={<ErrorPage />} />
+        </Routes>
+      </MemoryRouter>
+    </Provider>
+  )
+}
+
+const renderComponentWithPath = (path: string) => {
+  render(
+    <Provider store={testStore}>
+      <MemoryRouter initialEntries={[path]}>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <ErrorComponent />
+                <Outlet />
+              </>
+            }
+          >
+            <Route path="error" element={<ErrorPage />} />
+          </Route>
         </Routes>
       </MemoryRouter>
     </Provider>
@@ -165,6 +187,13 @@ describe('ErrorComponent', () => {
       renderComponent()
 
       expect(screen.getByText(code)).toBeInTheDocument()
+    })
+
+    it('shall not redirect to error route when already on error route', () => {
+      setErrorState(ErrorType.ROUTE, ErrorCode.TIMEOUT)
+      renderComponentWithPath('/error')
+
+      expect(screen.getByText('no-state')).toBeInTheDocument()
     })
   })
 })
