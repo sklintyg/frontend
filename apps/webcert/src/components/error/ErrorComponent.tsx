@@ -1,4 +1,4 @@
-import { Navigate } from 'react-router-dom'
+import { Navigate, useLocation } from 'react-router-dom'
 import { ErrorCode, ErrorType } from '../../store/error/errorReducer'
 import { getActiveError } from '../../store/error/errorSelectors'
 import { useAppSelector } from '../../store/store'
@@ -21,6 +21,7 @@ export interface ErrorRoute {
 
 const ErrorComponent = () => {
   const activeError = useAppSelector(getActiveError)
+  const location = useLocation()
 
   if (!activeError) return null
 
@@ -60,7 +61,10 @@ const ErrorComponent = () => {
       case ErrorType.MODAL:
         return getModal()
       case ErrorType.ROUTE:
-        return <Navigate to="/error" state={{ errorCode: activeError.errorCode, errorId: activeError.errorId }} />
+        if (location.pathname === '/error' || location.pathname === '/error.jsp') {
+          return null
+        }
+        return <Navigate to="/error" replace state={{ errorCode: activeError.errorCode, errorId: activeError.errorId }} />
       default:
         return null
     }
