@@ -59,6 +59,7 @@ const UeTextField = ({ question, disabled }: Props) => {
           name={questionConfig.id}
           value={text === null ? '' : text}
           limit={textValidation ? textValidation.limit : 100}
+          label={questionConfig.label}
         />
         <QuestionValidationTexts validationErrors={validationErrors} />
       </div>

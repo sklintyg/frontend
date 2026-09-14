@@ -8,7 +8,7 @@ import { certificateMiddleware } from '../../../../store/certificate/certificate
 import { configureApplicationStore } from '../../../../store/configureApplicationStore'
 import UeTextField from './UeTextField'
 
-const mockQuestion = fakeTextFieldElement({ id: '1', value: { text: 'Text' } })['1']
+const mockQuestion = fakeTextFieldElement({ id: '1', value: { text: 'Text' }, config: { label: 'Label' } })['1']
 
 let testStore: EnhancedStore
 let modalRoot: HTMLDivElement
@@ -90,5 +90,9 @@ describe('UeTextField', () => {
 
     expect(screen.getByRole('textbox')).toHaveValue('Clean åäö')
     expect(screen.queryByText(/Tecken som inte stöds/, { exact: false })).not.toBeInTheDocument()
+  })
+  it('renders component with label', async () => {
+    renderDefaultComponent({ question: mockQuestion, disabled: false })
+    expect(screen.getByText(/Label/)).toBeInTheDocument()
   })
 })
