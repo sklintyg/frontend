@@ -18,6 +18,7 @@ import type {
   ConfigUeDate,
   ConfigUeDateRange,
   ConfigUeDiagnoses,
+  ConfigUeDiagnosesWithText,
   ConfigUeDropdown,
   ConfigUeHeader,
   ConfigUeIcf,
@@ -148,6 +149,23 @@ const fakeDiagnoses = fakeDataElementConfig<ConfigUeDiagnoses>((override) => ({
   })),
   list: (override?.list ?? []).map((data) => ({
     id: fakeId(),
+    ...data,
+  })),
+}))
+
+const fakeDiagnosesWithText = fakeDataElementConfig<ConfigUeDiagnosesWithText>((override) => ({
+  type: ConfigTypes.UE_DIAGNOSES_WITH_TEXT,
+  textLabel: faker.lorem.sentence(3),
+  textLimit: 50,
+  terminology: (override?.terminology ?? []).map((data) => ({
+    id: fakeId(),
+    label: faker.lorem.sentence(3),
+    ...data,
+  })),
+  list: (override?.list ?? []).map((data) => ({
+    id: fakeId(),
+    diagnosisId: fakeId(),
+    textId: fakeId(),
     ...data,
   })),
 }))
@@ -331,6 +349,7 @@ export const fakeCertificateConfig = {
   date: fakeDate,
   dateRange: fakeDateRange,
   diagnoses: fakeDiagnoses,
+  diagnosesWithText: fakeDiagnosesWithText,
   dropdown: fakeDropdown,
   header: fakeHeader,
   icf: fakeIcf,

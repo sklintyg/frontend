@@ -89,6 +89,7 @@ export enum ConfigTypes {
   UE_DATE = 'UE_DATE',
   UE_DATE_RANGE = 'UE_DATE_RANGE',
   UE_DIAGNOSES = 'UE_DIAGNOSES',
+  UE_DIAGNOSES_WITH_TEXT = 'UE_DIAGNOSES_WITH_TEXT',
   UE_DROPDOWN = 'UE_DROPDOWN',
   UE_RADIO_BOOLEAN = 'UE_RADIO_BOOLEAN',
   UE_RADIO_CODE = 'UE_RADIO_CODE',
@@ -126,6 +127,7 @@ export type CertificateDataConfigType =
   | ConfigUeDate
   | ConfigUeDateRange
   | ConfigUeDiagnoses
+  | ConfigUeDiagnosesWithText
   | ConfigUeDropdown
   | ConfigUeHeader
   | ConfigUeIcf
@@ -313,6 +315,20 @@ export interface ConfigUeDiagnoses extends CertificateDataConfig {
   list: ConfigUeDiagnosisId[]
 }
 
+export interface ConfigUeDiagnosisWithTextId {
+  id: string
+  diagnosisId: string
+  textId: string
+}
+
+export interface ConfigUeDiagnosesWithText extends CertificateDataConfig {
+  type: ConfigTypes.UE_DIAGNOSES_WITH_TEXT
+  terminology: ConfigUeDiagnosisTerminology[]
+  textLabel: string
+  textLimit: number
+  list: ConfigUeDiagnosisWithTextId[]
+}
+
 export interface ConfigUeDropdownItem {
   id: string
   label: string
@@ -474,6 +490,8 @@ export enum CertificateDataValueType {
   DATE_RANGE_LIST = 'DATE_RANGE_LIST',
   DIAGNOSIS = 'DIAGNOSIS',
   DIAGNOSIS_LIST = 'DIAGNOSIS_LIST',
+  DIAGNOSIS_WITH_TEXT = 'DIAGNOSIS_WITH_TEXT',
+  DIAGNOSIS_WITH_TEXT_LIST = 'DIAGNOSIS_WITH_TEXT_LIST',
   ICF = 'ICF',
   TEXT = 'TEXT',
   DOUBLE = 'DOUBLE',
@@ -506,6 +524,8 @@ export type ValueType =
   | ValueDateRangeList
   | ValueDiagnosis
   | ValueDiagnosisList
+  | ValueDiagnosisWithText
+  | ValueDiagnosisWithTextList
   | ValueDouble
   | ValueHeader
   | ValueIcf
@@ -572,6 +592,18 @@ export interface ValueDiagnosis {
 export interface ValueDiagnosisList {
   type: CertificateDataValueType.DIAGNOSIS_LIST
   list: ValueDiagnosis[]
+}
+
+export interface ValueDiagnosisWithText {
+  type: CertificateDataValueType.DIAGNOSIS_WITH_TEXT
+  id: string
+  diagnosis: ValueDiagnosis
+  text: ValueText
+}
+
+export interface ValueDiagnosisWithTextList {
+  type: CertificateDataValueType.DIAGNOSIS_WITH_TEXT_LIST
+  list: ValueDiagnosisWithText[]
 }
 
 export interface ValueCodeList {

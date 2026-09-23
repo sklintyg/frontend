@@ -12,6 +12,8 @@ import type {
   ValueDateRangeList,
   ValueDiagnosis,
   ValueDiagnosisList,
+  ValueDiagnosisWithText,
+  ValueDiagnosisWithTextList,
   ValueDouble,
   ValueEyeAcuity,
   ValueHeader,
@@ -93,6 +95,18 @@ const fakeDiagnosis = fakeDataElementValue<ValueDiagnosis>(() => ({
 const fakeDiagnosisList = fakeDataElementValue<ValueDiagnosisList>((override) => ({
   type: CertificateDataValueType.DIAGNOSIS_LIST,
   list: (override?.list ?? []).map(fakeDiagnosis),
+}))
+
+const fakeDiagnosisWithText = fakeDataElementValue<ValueDiagnosisWithText>((override) => ({
+  type: CertificateDataValueType.DIAGNOSIS_WITH_TEXT,
+  id: fakeId(),
+  diagnosis: fakeDiagnosis(override?.diagnosis),
+  text: fakeText(override?.text),
+}))
+
+const fakeDiagnosisWithTextList = fakeDataElementValue<ValueDiagnosisWithTextList>((override) => ({
+  type: CertificateDataValueType.DIAGNOSIS_WITH_TEXT_LIST,
+  list: (override?.list ?? []).map(fakeDiagnosisWithText),
 }))
 
 const fakeDouble = fakeDataElementValue<ValueDouble>(() => ({
@@ -211,6 +225,8 @@ export const fakeCertificateValue = {
   dateRangeList: fakeDateRangeList,
   diagnosis: fakeDiagnosis,
   diagnosisList: fakeDiagnosisList,
+  diagnosisWithText: fakeDiagnosisWithText,
+  diagnosisWithTextList: fakeDiagnosisWithTextList,
   double: fakeDouble,
   eyeAcuity: fakeEyeAcuity,
   header: fakeHeader,

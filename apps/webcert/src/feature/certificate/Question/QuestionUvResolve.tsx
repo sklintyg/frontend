@@ -1,5 +1,4 @@
 import { isEqual } from 'lodash-es'
-import { useSelector } from 'react-redux'
 import { Badge } from '../../../components/UnifiedView/Badge'
 import { UvBoolean } from '../../../components/UnifiedView/UvBoolean/UvBoolean'
 import { UvCauseOfDeath } from '../../../components/UnifiedView/UvCauseOfDeath/UvCauseOfDeath'
@@ -11,6 +10,7 @@ import { UvDateList } from '../../../components/UnifiedView/UvDateList/UvDateLis
 import { UvDateRange } from '../../../components/UnifiedView/UvDateRange/UvDateRange'
 import { UvDateRangeList } from '../../../components/UnifiedView/UvDateRangeList/UvDateRangeList'
 import { UvDiagnosisList } from '../../../components/UnifiedView/UvDiagnosisList/UvDiagnosisList'
+import { UvDiagnosisWithTextList } from '../../../components/UnifiedView/UvDiagnosisWithTextList/UvDiagnosisWithTextList'
 import { UvIcf } from '../../../components/UnifiedView/UvIcf/UvIcf'
 import { UvInteger } from '../../../components/UnifiedView/UvInteger/UvInteger'
 import { UvMedicalInvestigationList } from '../../../components/UnifiedView/UvMedicalInvestigationList/UvMedicalInvestigationList'
@@ -21,6 +21,7 @@ import { UvViewList } from '../../../components/UnifiedView/UvViewList/UvViewLis
 import { UvVisualAcuity } from '../../../components/UnifiedView/UvVisualAcuity/UvVisualAcuity'
 import { UvYear } from '../../../components/UnifiedView/UvYear/UvYear'
 import { getQuestion } from '../../../store/certificate/certificateSelectors'
+import { useAppSelector } from '../../../store/store'
 import type {
   CertificateDataElement,
   ConfigUeCauseOfDeath,
@@ -29,6 +30,7 @@ import type {
   ConfigUeCheckboxDateRangeList,
   ConfigUeCheckboxMultipleDate,
   ConfigUeDateRange,
+  ConfigUeDiagnosesWithText,
   ConfigUeIcf,
   ConfigUeInteger,
   ConfigUeMedicalInvestigationList,
@@ -45,7 +47,7 @@ const QuestionUvResolve = ({ question }: { question: CertificateDataElement }) =
     }
   }
   const optionalDropdown = getOptionalDropdown()
-  const questionWithOptionalDropdown = useSelector(getQuestion(optionalDropdown ? optionalDropdown.dropdownQuestionId : ''), isEqual)
+  const questionWithOptionalDropdown = useAppSelector(getQuestion(optionalDropdown ? optionalDropdown.dropdownQuestionId : ''), isEqual)
 
   if (question.value == null || question.visible === false || question.style === CertificateDataElementStyleEnum.HIDDEN) {
     return null
@@ -70,6 +72,9 @@ const QuestionUvResolve = ({ question }: { question: CertificateDataElement }) =
 
     case CertificateDataValueType.DIAGNOSIS_LIST:
       return <UvDiagnosisList value={question.value} />
+
+    case CertificateDataValueType.DIAGNOSIS_WITH_TEXT_LIST:
+      return <UvDiagnosisWithTextList value={question.value} config={question.config as ConfigUeDiagnosesWithText} />
 
     case CertificateDataValueType.CODE:
       return <UvCode value={question.value} config={question.config} questionWithOptionalDropdown={questionWithOptionalDropdown} />

@@ -13,6 +13,7 @@ import UeCheckboxGroup from '../UnifiedEdit/UeCheckboxGroup/UeCheckboxGroup'
 import UeDate from '../UnifiedEdit/UeDate/UeDate'
 import UeDateRange from '../UnifiedEdit/UeDateRange/UeDateRange'
 import { UeDiagnoses } from '../UnifiedEdit/UeDiagnosis/UeDiagnoses'
+import { UeDiagnosisWithTextList } from '../UnifiedEdit/UeDiagnosisWithTextList/UeDiagnosisWithTextList'
 import UeDropdown from '../UnifiedEdit/UeDropdown/UeDropdown'
 import UeIcf from '../UnifiedEdit/UeIcf/UeIcf'
 import UeInteger from '../UnifiedEdit/UeInteger/UeInteger'
@@ -64,6 +65,10 @@ export function QuestionUeResolve({ question, disabled }: { question: Certificat
 
   if (isQuestionTypes(ConfigTypes.UE_DIAGNOSES, CertificateDataValueType.DIAGNOSIS_LIST, question)) {
     return <UeDiagnoses {...questionToUeProps(question.config, question.value)} key={question.id} />
+  }
+
+  if (isQuestionTypes(ConfigTypes.UE_DIAGNOSES_WITH_TEXT, CertificateDataValueType.DIAGNOSIS_WITH_TEXT_LIST, question)) {
+    return <UeDiagnosisWithTextList {...questionToUeProps(question.config, question.value)} key={question.id} />
   }
 
   switch (question.config.type) {
