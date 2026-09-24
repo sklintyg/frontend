@@ -124,7 +124,7 @@ describe('CertificateList', () => {
     const buttons = screen.getAllByLabelText('Markera intyget som favorit och fäst högst upp i listan.')
     await userEvent.click(buttons[1])
 
-    expect(buttons[1]).toMatchSnapshot()
+    expect(buttons[1]).toHaveAttribute('aria-label', 'Ta bort som favoritmarkerat intyg.')
   })
 
   it('should remove favorites', async () => {
@@ -134,7 +134,7 @@ describe('CertificateList', () => {
     await userEvent.click(buttons[1])
     await userEvent.click(buttons[1])
 
-    expect(buttons[1]).toMatchSnapshot()
+    expect(buttons[1]).toHaveAttribute('aria-label', 'Markera intyget som favorit och fäst högst upp i listan.')
   })
 
   it('should show modal when clicked', async () => {

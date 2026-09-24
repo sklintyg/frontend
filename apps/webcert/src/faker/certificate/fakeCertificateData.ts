@@ -13,6 +13,7 @@ import type {
   ConfigUeDate,
   ConfigUeDateRange,
   ConfigUeDiagnoses,
+  ConfigUeDiagnosesWithText,
   ConfigUeDropdown,
   ConfigUeIcf,
   ConfigUeInteger,
@@ -39,6 +40,7 @@ import type {
   ValueDateRange,
   ValueDateRangeList,
   ValueDiagnosisList,
+  ValueDiagnosisWithTextList,
   ValueIcf,
   ValueInteger,
   ValueMedicalInvestigationList,
@@ -133,6 +135,28 @@ export const fakeDiagnosesElement = fakeDataElementFactory<ConfigUeDiagnoses, Va
   }),
   value: fakeCertificateValue.diagnosisList(value),
 }))
+
+export const fakeDiagnosisWithTextListElement = fakeDataElementFactory<ConfigUeDiagnosesWithText, ValueDiagnosisWithTextList>(
+  (config, value) => {
+    const rows = ['diagnos1', 'diagnos2', 'diagnos3'].map((id) => ({ id, diagnosisId: `${id}.diagnos`, textId: `${id}.text` }))
+    return {
+      config: fakeCertificateConfig.diagnosesWithText({
+        terminology: [{ id: 'ICD_10_SE', label: 'ICD-10-SE' }],
+        textLabel: 'När och var ställdes diagnosen?',
+        list: rows,
+        ...config,
+      }),
+      value: fakeCertificateValue.diagnosisWithTextList({
+        list: rows.map(({ id, diagnosisId, textId }) => ({
+          id,
+          diagnosis: { id: diagnosisId, terminology: 'ICD_10_SE' },
+          text: { id: textId },
+        })),
+        ...value,
+      }),
+    }
+  }
+)
 
 export const fakeICFDataElement = fakeDataElementFactory<ConfigUeIcf, ValueIcf>((config, value) => ({
   config: fakeCertificateConfig.icf({
