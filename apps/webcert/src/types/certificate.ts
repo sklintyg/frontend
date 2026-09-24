@@ -315,7 +315,7 @@ export interface ConfigUeDiagnoses extends CertificateDataConfig {
   list: ConfigUeDiagnosisId[]
 }
 
-export interface ConfigUeDiagnosisWithTextId {
+interface ConfigUeDiagnosisWithTextId {
   id: string
   diagnosisId: string
   textId: string
