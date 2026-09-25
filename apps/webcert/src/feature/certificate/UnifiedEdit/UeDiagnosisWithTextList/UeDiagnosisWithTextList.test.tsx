@@ -96,9 +96,9 @@ describe('UeDiagnosisWithTextList', () => {
     expect(screen.getAllByRole('textbox')).toHaveLength(9)
   })
 
-  it('renders the heading once above the rows', () => {
+  it('renders the heading on every row', () => {
     renderComponent(createQuestion())
-    expect(screen.getAllByText('Diagnoskod enligt ICD-10-SE')).toHaveLength(1)
+    expect(screen.getAllByText('Diagnoskod enligt ICD-10-SE')).toHaveLength(3)
   })
 
   it('renders textLabel as the label of each text field', () => {
@@ -195,7 +195,7 @@ describe('UeDiagnosisWithTextList', () => {
       diagnosis: { terminology: 'KSH_97_P', code: '', description: '' },
       text: { text: '2024' },
     })
-    expect(screen.getByText('Diagnoskod enligt KSH97-P (Primärvård)')).toBeInTheDocument()
+    expect(screen.getAllByText('Diagnoskod enligt KSH97-P (Primärvård)')).toHaveLength(3)
   })
 
   it('stores the sanitised text of every prefilled row on mount', () => {
