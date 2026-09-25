@@ -122,6 +122,7 @@ export function UeDiagnosisWithTextList({
 
   const diagnoses = useMemo(() => list.map(({ diagnosis }) => diagnosis), [list])
   const typeaheadProps = useDiagnosisTypeahead({ list: diagnoses })
+  const terminologyLabel = config.terminology.find((terminology) => terminology.id === selectedCodeSystem)?.label
 
   function onListUpdate(updatedList: ValueDiagnosisWithText[]) {
     latestList.current = updatedList
@@ -163,15 +164,12 @@ export function UeDiagnosisWithTextList({
           </RadioWrapper>
         </>
       )}
-      <p className="iu-mb-200">
-        Diagnoskod enligt {config.terminology.find((terminology) => terminology.id === selectedCodeSystem)?.label}
-      </p>
-
       {config.list.map((rowConfig, index) => {
         const row = list[index]
         const diagnosisValidationErrors = validationErrors.filter(({ field }) => field === rowConfig.diagnosisId)
         return (
           <Row key={rowConfig.id} data-testid={rowConfig.id}>
+            <p className="iu-mb-200">Diagnoskod enligt {terminologyLabel}</p>
             <UeDiagnosis
               key={`${rowConfig.diagnosisId}-${selectedCodeSystem}`}
               id={rowConfig.diagnosisId}
