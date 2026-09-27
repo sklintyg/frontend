@@ -86,3 +86,20 @@ it('Should print in light mode without changing the chosen dark mode', () => {
   expect(document.body).not.toHaveClass('ids--light')
   expect(darkMode()).toBe(true)
 })
+
+it('Should keep printing in light mode when the chosen theme changes during printing', () => {
+  const { store, darkMode, print } = setup(false)
+  store.dispatch(updateDarkMode(true))
+
+  print('beforeprint')
+  store.dispatch(updateDarkMode(false))
+  expect(document.body).toHaveClass('ids--light')
+  store.dispatch(updateDarkMode(true))
+  expect(document.body).toHaveClass('ids--light')
+  expect(document.body).not.toHaveClass('ids--dark')
+  expect(darkMode()).toBe(true)
+
+  print('afterprint')
+  expect(document.body).toHaveClass('ids--dark')
+  expect(document.body).not.toHaveClass('ids--light')
+})
