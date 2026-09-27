@@ -15,6 +15,8 @@ const applyDarkMode = (darkMode: boolean) => {
 export const syncDarkMode = (store: DarkModeStore) => {
   const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
   let osDarkMode = mediaQuery.matches
+  // Assumes the browser sends afterprint after every beforeprint. If afterprint never comes, the page
+  // stays in light mode and follows neither the chosen theme nor the OS appearance until reloaded.
   let printing = false
 
   // Print in light mode, whatever the chosen theme
@@ -24,6 +26,8 @@ export const syncDarkMode = (store: DarkModeStore) => {
 
   // Chrome evaluates prefers-color-scheme as light while the print preview is open, and changes it
   // back after afterprint. Only a real change of the OS appearance should reach the store.
+  // A real OS change while the preview is open is missed, and so is the first real change after it,
+  // because osDarkMode still holds the value from before printing.
   const onChange = (e: MediaQueryListEvent) => {
     if (printing || e.matches === osDarkMode) {
       return
