@@ -216,6 +216,20 @@ describe('UeDiagnosisWithTextList', () => {
     expect(within(screen.getByTestId('diagnos1')).getByLabelText(TEXT_LABEL)).toHaveClass('ic-textfield--error')
   })
 
+  it('renders the mandatory question error below the list when the entire component is empty', () => {
+    renderComponent(createQuestion(), [
+      { field: 'diagnos1.diagnos', text: 'Ange en diagnos.' },
+      { field: 'diagnos1.text', text: 'Ange ett svar.' },
+      { field: DIAGNOSIS_LIST_FIELD, text: 'Ange ett svar.' },
+    ])
+
+    expect(within(screen.getByTestId('diagnos1')).getByText('Ange en diagnos.')).toBeInTheDocument()
+    expect(within(screen.getByTestId('diagnos1.text-container')).getByText('Ange ett svar.')).toBeInTheDocument()
+    expect(screen.getAllByText('Ange ett svar.')).toHaveLength(2)
+    expect(within(screen.getByTestId('diagnos2')).queryByText('Ange ett svar.')).not.toBeInTheDocument()
+    expect(within(screen.getByTestId('diagnos3')).queryByText('Ange ett svar.')).not.toBeInTheDocument()
+  })
+
   it('clears every row diagnosis and keeps the rows and their text when kodverk is switched', async () => {
     renderComponent(
       createQuestion(
