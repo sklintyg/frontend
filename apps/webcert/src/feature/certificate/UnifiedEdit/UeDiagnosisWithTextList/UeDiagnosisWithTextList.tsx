@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import RadioButton from '../../../../components/Inputs/RadioButton'
 import TextInput from '../../../../components/Inputs/TextInput'
 import QuestionValidationTexts from '../../../../components/Validation/QuestionValidationTexts'
@@ -29,12 +29,18 @@ const RadioWrapper = styled.div`
   }
 `
 
-const Row = styled.div`
-  &:not(:last-child) {
-    padding-bottom: 1.25rem;
-    margin-bottom: 1.25rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  }
+const Row = styled.div<{ $showDivider: boolean; $compactValidationSpacing: boolean }>`
+  ${({ $showDivider }) =>
+    $showDivider &&
+    css`
+      margin-bottom: 1.25rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    `}
+  ${({ $showDivider, $compactValidationSpacing }) =>
+    $showDivider &&
+    css`
+      padding-bottom: ${$compactValidationSpacing ? '0.9375rem' : '1.25rem'};
+    `}
 `
 
 /** One entry per configured row, in config order; a row the value lacks gets empty leaves. */
@@ -66,6 +72,7 @@ function UeDiagnosisText({
   label,
   limit,
   disabled,
+  compactSpacing,
   validationErrors,
   onChange,
 }: {
@@ -74,6 +81,7 @@ function UeDiagnosisText({
   label: string
   limit: number
   disabled: boolean
+  compactSpacing: boolean
   validationErrors: ValidationError[]
   onChange: (value: ValueText) => void
 }) {
@@ -88,7 +96,7 @@ function UeDiagnosisText({
   }, [])
 
   return (
-    <div className="iu-mt-300" data-testid={`${id}-container`}>
+    <div className={compactSpacing ? undefined : 'iu-mt-300'} data-testid={`${id}-container`}>
       <TextInput
         id={id}
         label={label}
@@ -119,6 +127,7 @@ export function UeDiagnosisWithTextList({
   const fields = config.list.flatMap(({ diagnosisId, textId }) => [diagnosisId, textId])
   const validationErrors = useAppSelector(getVisibleValidationErrors(id))
   const validationErrorsWithMissingField = validationErrors.filter(({ field }) => !fields.includes(field))
+  const hasSingleListValidationError = validationErrors.length === 1 && validationErrorsWithMissingField.length === 1
 
   const diagnoses = useMemo(() => list.map(({ diagnosis }) => diagnosis), [list])
   const typeaheadProps = useDiagnosisTypeahead({ list: diagnoses })
@@ -167,15 +176,21 @@ export function UeDiagnosisWithTextList({
       {config.list.map((rowConfig, index) => {
         const row = list[index]
         const diagnosisValidationErrors = validationErrors.filter(({ field }) => field === rowConfig.diagnosisId)
+        const textValidationErrors = validationErrors.filter(({ field }) => field === rowConfig.textId)
         return (
-          <Row key={rowConfig.id} data-testid={rowConfig.id}>
+          <Row
+            key={rowConfig.id}
+            data-testid={rowConfig.id}
+            $showDivider={index < config.list.length - 1}
+            $compactValidationSpacing={diagnosisValidationErrors.length > 0 || textValidationErrors.length > 0}
+          >
             <p className="iu-mb-200">Diagnoskod enligt {terminologyLabel}</p>
             <UeDiagnosis
               key={`${rowConfig.diagnosisId}-${selectedCodeSystem}`}
               id={rowConfig.diagnosisId}
               value={row.diagnosis}
               disabled={disabled}
-              hasValidationError={(index === 0 && validationErrorsWithMissingField.length > 0) || diagnosisValidationErrors.length > 0}
+              hasValidationError={(index === 0 && hasSingleListValidationError) || diagnosisValidationErrors.length > 0}
               validationErrors={diagnosisValidationErrors}
               selectedCodeSystem={selectedCodeSystem}
               onChange={(diagnosis) => onRowUpdate(rowConfig.id, { diagnosis })}
@@ -187,7 +202,8 @@ export function UeDiagnosisWithTextList({
               label={config.textLabel}
               limit={config.textLimit}
               disabled={disabled}
-              validationErrors={validationErrors.filter(({ field }) => field === rowConfig.textId)}
+              compactSpacing={diagnosisValidationErrors.length > 0}
+              validationErrors={textValidationErrors}
               onChange={(text) => onRowUpdate(rowConfig.id, { text })}
             />
           </Row>

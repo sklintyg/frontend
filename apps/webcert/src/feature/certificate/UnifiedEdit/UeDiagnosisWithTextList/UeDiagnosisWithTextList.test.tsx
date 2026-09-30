@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { Provider } from 'react-redux'
 import { fakeCertificate, fakeDiagnosisWithTextListElement } from '../../../../faker'
 import {
-  showValidationErrors,
+  showValidationErrors as showValidationErrorsAction,
   updateCertificate,
   updateCertificateDataElement,
   validateCertificateSuccess,
@@ -20,6 +20,7 @@ import { UeDiagnosisWithTextList } from './UeDiagnosisWithTextList'
 const QUESTION_ID = '58'
 const TEXT_LABEL = 'När och var ställdes diagnosen?'
 const ROW_IDS = ['diagnos1', 'diagnos2', 'diagnos3']
+const DIAGNOSIS_LIST_FIELD = '58.1'
 
 let testStore: EnhancedStore
 let modalRoot: HTMLDivElement
@@ -51,19 +52,21 @@ const rowFields = (rowId: string) =>
 
 const storedList = () => (getQuestion(QUESTION_ID)(testStore.getState())?.value as ValueDiagnosisWithTextList).list
 
-const showValidationError = (field: string, text: string) => {
-  testStore.dispatch(showValidationErrors())
+type TestValidationError = { field: string; text: string }
+
+const showValidationErrors = (errors: TestValidationError[]) => {
+  testStore.dispatch(showValidationErrorsAction())
   testStore.dispatch(
     validateCertificateSuccess({
-      validationErrors: [{ id: QUESTION_ID, category: 'category', field, type: 'EMPTY', text }],
+      validationErrors: errors.map(({ field, text }) => ({ id: QUESTION_ID, category: 'category', field, type: 'EMPTY', text })),
     })
   )
 }
 
-const renderComponent = (question: ReturnType<typeof createQuestion>, validationError?: { field: string; text: string }) => {
+const renderComponent = (question: ReturnType<typeof createQuestion>, validationErrors?: TestValidationError | TestValidationError[]) => {
   testStore.dispatch(updateCertificate(fakeCertificate({ data: { [QUESTION_ID]: question } })))
-  if (validationError) {
-    showValidationError(validationError.field, validationError.text)
+  if (validationErrors) {
+    showValidationErrors(Array.isArray(validationErrors) ? validationErrors : [validationErrors])
   }
   render(
     <Provider store={testStore}>
@@ -171,11 +174,46 @@ describe('UeDiagnosisWithTextList', () => {
   })
 
   it('renders an error with an unmatched field once under the list, framing only row 1 code', () => {
-    renderComponent(createQuestion(), { field: 'diagnoser', text: 'Ange en diagnos.' })
+    renderComponent(createQuestion(), { field: DIAGNOSIS_LIST_FIELD, text: 'Ange en diagnos.' })
     expect(screen.getAllByText('Ange en diagnos.')).toHaveLength(1)
     expect(ROW_IDS.map((id) => within(screen.getByTestId(id)).queryByText('Ange en diagnos.'))).toEqual([null, null, null])
     expect(screen.getByTestId('diagnos1.diagnos-code')).toHaveClass('ic-textfield--error')
     expect(screen.getByTestId('diagnos2.diagnos-code')).not.toHaveClass('ic-textfield--error')
+  })
+
+  it('renders the C-05a order error below the list without marking another row invalid', () => {
+    renderComponent(
+      createQuestion([
+        answeredRow('diagnos1', 'J20', 'Akut bronkit', 'Stora sjukhuset i X-stad, juli 2025.'),
+        unansweredRow('diagnos2'),
+        answeredRow('diagnos3', 'W22', 'Slagit sig mot eller träffad av andra föremål', null),
+      ]),
+      [
+        { field: DIAGNOSIS_LIST_FIELD, text: 'Fyll i fälten uppifrån och ned.' },
+        { field: 'diagnos3.text', text: 'Ange ett svar.' },
+      ]
+    )
+
+    expect(screen.getAllByText('Fyll i fälten uppifrån och ned.')).toHaveLength(1)
+    expect(within(screen.getByTestId('diagnos3.text-container')).getByText('Ange ett svar.')).toBeInTheDocument()
+    expect(screen.getByTestId('diagnos1.diagnos-code')).not.toHaveClass('ic-textfield--error')
+    expect(getComputedStyle(screen.getByTestId('diagnos2')).borderBottomStyle).toBe('solid')
+    expect(getComputedStyle(screen.getByTestId('diagnos3')).borderBottomStyle).toBe('')
+    expect(getComputedStyle(screen.getByTestId('diagnos3')).marginBottom).toBe('')
+  })
+
+  it('renders mandatory first-row errors together with C-05a when a lower row is answered', () => {
+    renderComponent(createQuestion([unansweredRow('diagnos1'), answeredRow('diagnos2', 'A78', 'Q-feber', 'rr')]), [
+      { field: DIAGNOSIS_LIST_FIELD, text: 'Fyll i fälten uppifrån och ned.' },
+      { field: 'diagnos1.diagnos', text: 'Ange en diagnos.' },
+      { field: 'diagnos1.text', text: 'Ange ett svar.' },
+    ])
+
+    expect(within(screen.getByTestId('diagnos1')).getByText('Ange en diagnos.')).toBeInTheDocument()
+    expect(within(screen.getByTestId('diagnos1.text-container')).getByText('Ange ett svar.')).toBeInTheDocument()
+    expect(screen.getByText('Fyll i fälten uppifrån och ned.')).toBeInTheDocument()
+    expect(screen.getByTestId('diagnos1.diagnos-code')).toHaveClass('ic-textfield--error')
+    expect(within(screen.getByTestId('diagnos1')).getByLabelText(TEXT_LABEL)).toHaveClass('ic-textfield--error')
   })
 
   it('clears every row diagnosis and keeps the rows and their text when kodverk is switched', async () => {
