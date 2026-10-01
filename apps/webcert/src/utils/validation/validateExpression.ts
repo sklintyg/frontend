@@ -51,6 +51,11 @@ export const getKeyValuePair = (value: ValueType): Record<string, unknown> => {
         return { ...result, [field]: value.value }
       case CertificateDataValueType.DIAGNOSIS:
         return { ...result, [field]: value.code }
+      case CertificateDataValueType.DIAGNOSIS_WITH_TEXT:
+        return {
+          ...result,
+          [field]: value.diagnosis.code || value.diagnosis.description || value.text.text,
+        }
       case CertificateDataValueType.ICF:
       case CertificateDataValueType.TEXT:
         return { ...result, [field]: value.text }
