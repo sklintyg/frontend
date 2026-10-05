@@ -38,7 +38,7 @@ const AccordionControl = styled(Accordion)<AccordionProps>`
 const QuestionHeaderAccordion = ({ config, displayMandatory, questionId }: Props) => {
   const validationErrors = useAppSelector(getVisibleValidationErrors(questionId))
   const parent = useAppSelector(getQuestion(questionId))
-  const parentIsCategory = parent && parent.config.type === ConfigTypes.CATEGORY
+  const parentIsCategory = parent?.config.type === ConfigTypes.CATEGORY
   const h5text = Boolean(config.header) || !parentIsCategory
   const heading = h5text ? (
     <h5 className="iu-fs-200 iu-mb-200 iu-lh-h4" data-testid="question-heading-h5">
