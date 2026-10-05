@@ -75,26 +75,25 @@ it.each([
   { parentType: 'category', description: undefined, expectedColor: '#c12143' },
   { parentType: 'question', description: 'Some description', expectedColor: 'transparent' },
   { parentType: 'question', description: undefined, expectedColor: 'transparent' },
-])('Should highlight validation errors only when the parent is a category ($parentType, description: $description)', ({
-  parentType,
-  description,
-  expectedColor,
-}) => {
-  const validationError = fakeCertificateValidationError({ id: '1' })
-  const parent =
-    parentType === 'category'
-      ? fakeCategoryElement({ id: '1', validationErrors: [validationError] })['1']
-      : fakeTextFieldElement({ id: '1', validationErrors: [validationError] })['1']
+])(
+  'Should highlight validation errors only when the parent is a category ($parentType, description: $description)',
+  ({ parentType, description, expectedColor }) => {
+    const validationError = fakeCertificateValidationError({ id: '1' })
+    const parent =
+      parentType === 'category'
+        ? fakeCategoryElement({ id: '1', validationErrors: [validationError] })['1']
+        : fakeTextFieldElement({ id: '1', validationErrors: [validationError] })['1']
 
-  testStore.dispatch(updateCertificate(fakeCertificate({ data: { [parent.id]: parent } })))
-  testStore.dispatch(showValidationErrors())
+    testStore.dispatch(updateCertificate(fakeCertificate({ data: { [parent.id]: parent } })))
+    testStore.dispatch(showValidationErrors())
 
-  renderComponent({
-    config: fakeCertificateConfig.textArea({ text: 'Question', description }),
-    displayMandatory: false,
-    questionId: parent.id,
-  })
+    renderComponent({
+      config: fakeCertificateConfig.textArea({ text: 'Question', description }),
+      displayMandatory: false,
+      questionId: parent.id,
+    })
 
-  const headerHighlight = screen.getByTestId('question-header-error-highlight')
-  expect(headerHighlight).toHaveStyle(`border-bottom-color: ${expectedColor}`)
-})
+    const headerHighlight = screen.getByTestId('question-header-error-highlight')
+    expect(headerHighlight).toHaveStyle(`border-bottom-color: ${expectedColor}`)
+  }
+)
