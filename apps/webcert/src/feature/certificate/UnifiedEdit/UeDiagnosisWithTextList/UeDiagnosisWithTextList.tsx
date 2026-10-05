@@ -141,8 +141,7 @@ export function UeDiagnosisWithTextList({
     -1
   )
   const lastRowWithValueIndex = list.reduce(
-    (lastIndex, row, index) =>
-      row.diagnosis.code.trim() || row.diagnosis.description.trim() || row.text.text?.trim() ? index : lastIndex,
+    (lastIndex, row, index) => (row.diagnosis.code.trim() || row.diagnosis.description.trim() || row.text.text?.trim() ? index : lastIndex),
     -1
   )
   const lastAffectedRowIndex = Math.max(lastEditedRowIndex.current, lastRowWithValidationErrorIndex, lastRowWithValueIndex)
