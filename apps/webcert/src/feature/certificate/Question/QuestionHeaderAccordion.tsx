@@ -38,8 +38,8 @@ const AccordionControl = styled(Accordion)<AccordionProps>`
 const QuestionHeaderAccordion = ({ config, displayMandatory, questionId }: Props) => {
   const validationErrors = useAppSelector(getVisibleValidationErrors(questionId))
   const parent = useAppSelector(getQuestion(questionId))
-  const questionTypeIsCategory = parent && parent.config.type === ConfigTypes.CATEGORY
-  const h5text = Boolean(config.header) || !questionTypeIsCategory
+  const parentIsCategory = parent && parent.config.type === ConfigTypes.CATEGORY
+  const h5text = Boolean(config.header) || !parentIsCategory
   const heading = h5text ? (
     <h5 className="iu-fs-200 iu-mb-200 iu-lh-h4" data-testid="question-heading-h5">
       {config.text}
@@ -54,7 +54,7 @@ const QuestionHeaderAccordion = ({ config, displayMandatory, questionId }: Props
       {config.description ? (
         <AccordionControl h5Text={h5text}>
           <AccordionHeader>
-            <HeaderErrorHighlight error={validationErrors.length > 0}>
+            <HeaderErrorHighlight data-testid="question-header-error-highlight" error={parentIsCategory && validationErrors.length > 0}>
               {displayMandatory && <MandatoryIcon />}
               <Wrapper>
                 {config.icon && <Icon iconType={config.icon} includeTooltip={true} />}
@@ -66,7 +66,7 @@ const QuestionHeaderAccordion = ({ config, displayMandatory, questionId }: Props
         </AccordionControl>
       ) : (
         <div>
-          <HeaderErrorHighlight error={validationErrors.length > 0}>
+          <HeaderErrorHighlight data-testid="question-header-error-highlight" error={parentIsCategory && validationErrors.length > 0}>
             {displayMandatory && <MandatoryIcon />}
             <Wrapper>{heading}</Wrapper>
           </HeaderErrorHighlight>
