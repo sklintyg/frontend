@@ -2,7 +2,14 @@ import type { EnhancedStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import type { ComponentProps } from 'react'
 import { Provider } from 'react-redux'
-import { fakeCertificateConfig } from '../../../faker'
+import {
+  fakeCertificate,
+  fakeCertificateConfig,
+  fakeCertificateValidationError,
+  fakeCategoryElement,
+  fakeTextFieldElement,
+} from '../../../faker'
+import { showValidationErrors, updateCertificate } from '../../../store/certificate/certificateActions'
 import { certificateMiddleware } from '../../../store/certificate/certificateMiddleware'
 import { configureApplicationStore } from '../../../store/configureApplicationStore'
 import QuestionHeaderAccordion from './QuestionHeaderAccordion'
@@ -62,3 +69,31 @@ it('Should display mandatory icon when description is missing', () => {
 
   expect(screen.getByTestId('mandatory-icon')).toBeInTheDocument()
 })
+
+it.each([
+  { parentType: 'category', description: 'Some description', expectedColor: '#c12143' },
+  { parentType: 'category', description: undefined, expectedColor: '#c12143' },
+  { parentType: 'question', description: 'Some description', expectedColor: 'transparent' },
+  { parentType: 'question', description: undefined, expectedColor: 'transparent' },
+])(
+  'Should highlight validation errors only when the parent is a category ($parentType, description: $description)',
+  ({ parentType, description, expectedColor }) => {
+    const validationError = fakeCertificateValidationError({ id: '1' })
+    const parent =
+      parentType === 'category'
+        ? fakeCategoryElement({ id: '1', validationErrors: [validationError] })['1']
+        : fakeTextFieldElement({ id: '1', validationErrors: [validationError] })['1']
+
+    testStore.dispatch(updateCertificate(fakeCertificate({ data: { [parent.id]: parent } })))
+    testStore.dispatch(showValidationErrors())
+
+    renderComponent({
+      config: fakeCertificateConfig.textArea({ text: 'Question', description }),
+      displayMandatory: false,
+      questionId: parent.id,
+    })
+
+    const headerHighlight = screen.getByTestId('question-header-error-highlight')
+    expect(headerHighlight).toHaveStyle(`border-bottom-color: ${expectedColor}`)
+  }
+)
