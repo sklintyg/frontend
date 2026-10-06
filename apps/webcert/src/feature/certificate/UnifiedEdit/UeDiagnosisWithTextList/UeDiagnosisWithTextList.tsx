@@ -19,6 +19,10 @@ import { UeDiagnosis } from '../UeDiagnosis/UeDiagnosis'
 import useIso8859Sanitization from '../hooks/useIso8859Sanitization'
 import type { UnifiedEdit } from '../UnifiedEdit'
 
+const ORDER_VALIDATION_MESSAGE = 'Fyll i fälten uppifrån och ned.'
+const DIAGNOSIS_REQUIRED_MESSAGE = 'Ange en diagnos.'
+const TEXT_REQUIRED_MESSAGE = 'Ange ett svar.'
+
 const RadioWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -75,7 +79,7 @@ function UeDiagnosisText({
   compactSpacing,
   validationErrors,
   onChange,
-}: {
+}: Readonly<{
   id: string
   value: ValueText
   label: string
@@ -84,7 +88,7 @@ function UeDiagnosisText({
   compactSpacing: boolean
   validationErrors: ValidationError[]
   onChange: (value: ValueText) => void
-}) {
+}>) {
   const rawInitialText = value.text ?? ''
   const { sanitize, showWarning, sanitizedInitialValue } = useIso8859Sanitization(rawInitialText)
 
@@ -118,16 +122,29 @@ export function UeDiagnosisWithTextList({
   question: { id, config, value },
   disabled,
   onUpdate,
-}: UnifiedEdit<ConfigUeDiagnosesWithText, ValueDiagnosisWithTextList>) {
+}: Readonly<UnifiedEdit<ConfigUeDiagnosesWithText, ValueDiagnosisWithTextList>>) {
   const firstSavedTerminology = value.list.find(({ diagnosis }) => diagnosis.code && diagnosis.terminology)?.diagnosis.terminology
   const [selectedCodeSystem, setSelectedCodeSystem] = useState(firstSavedTerminology ?? config.terminology[0].id)
   const [list, setList] = useState(() => toRows(config, value, selectedCodeSystem))
   // Rows may report in the same tick (the sanitising effects on mount), so updates build on the latest list, not the rendered one.
   const latestList = useRef(list)
+  const lastEditedRowIndex = useRef(0)
   const fields = config.list.flatMap(({ diagnosisId, textId }) => [diagnosisId, textId])
   const validationErrors = useAppSelector(getVisibleValidationErrors(id))
   const validationErrorsWithMissingField = validationErrors.filter(({ field }) => !fields.includes(field))
-  const hasSingleListValidationError = validationErrors.length === 1 && validationErrorsWithMissingField.length === 1
+  const hasOrderValidationError = validationErrorsWithMissingField.some(({ text }) => text === ORDER_VALIDATION_MESSAGE)
+  const hasSingleListValidationError =
+    !hasOrderValidationError && validationErrors.length === 1 && validationErrorsWithMissingField.length === 1
+  const lastRowWithValidationErrorIndex = config.list.reduce(
+    (lastIndex, { diagnosisId, textId }, index) =>
+      validationErrors.some(({ field }) => field === diagnosisId || field === textId) ? index : lastIndex,
+    -1
+  )
+  const lastRowWithValueIndex = list.reduce(
+    (lastIndex, row, index) => (row.diagnosis.code.trim() || row.diagnosis.description.trim() || row.text.text?.trim() ? index : lastIndex),
+    -1
+  )
+  const lastAffectedRowIndex = Math.max(lastEditedRowIndex.current, lastRowWithValidationErrorIndex, lastRowWithValueIndex)
 
   const diagnoses = useMemo(() => list.map(({ diagnosis }) => diagnosis), [list])
   const typeaheadProps = useDiagnosisTypeahead({ list: diagnoses })
@@ -140,6 +157,10 @@ export function UeDiagnosisWithTextList({
   }
 
   function onRowUpdate(rowId: string, change: Partial<Pick<ValueDiagnosisWithText, 'diagnosis' | 'text'>>) {
+    const rowIndex = config.list.findIndex(({ id }) => id === rowId)
+    if (rowIndex >= 0) {
+      lastEditedRowIndex.current = rowIndex
+    }
     onListUpdate(latestList.current.map((row) => (row.id === rowId ? { ...row, ...change } : row)))
   }
 
@@ -177,12 +198,41 @@ export function UeDiagnosisWithTextList({
         const row = list[index]
         const diagnosisValidationErrors = validationErrors.filter(({ field }) => field === rowConfig.diagnosisId)
         const textValidationErrors = validationErrors.filter(({ field }) => field === rowConfig.textId)
+        const orderValidationError = hasOrderValidationError && index <= lastAffectedRowIndex
+        const rowDiagnosisValidationErrors =
+          diagnosisValidationErrors.length > 0
+            ? diagnosisValidationErrors
+            : orderValidationError && (!row.diagnosis.code.trim() || !row.diagnosis.description.trim())
+              ? [
+                  {
+                    id,
+                    category: '',
+                    field: rowConfig.diagnosisId,
+                    type: 'EMPTY',
+                    text: DIAGNOSIS_REQUIRED_MESSAGE,
+                  },
+                ]
+              : []
+        const rowTextValidationErrors =
+          textValidationErrors.length > 0
+            ? textValidationErrors
+            : orderValidationError && !row.text.text?.trim()
+              ? [
+                  {
+                    id,
+                    category: '',
+                    field: rowConfig.textId,
+                    type: 'EMPTY',
+                    text: TEXT_REQUIRED_MESSAGE,
+                  },
+                ]
+              : []
         return (
           <Row
             key={rowConfig.id}
             data-testid={rowConfig.id}
             $showDivider={index < config.list.length - 1}
-            $compactValidationSpacing={diagnosisValidationErrors.length > 0 || textValidationErrors.length > 0}
+            $compactValidationSpacing={rowDiagnosisValidationErrors.length > 0 || rowTextValidationErrors.length > 0}
           >
             <p className="iu-mb-200">Diagnoskod enligt {terminologyLabel}</p>
             <UeDiagnosis
@@ -191,7 +241,8 @@ export function UeDiagnosisWithTextList({
               value={row.diagnosis}
               disabled={disabled}
               hasValidationError={(index === 0 && hasSingleListValidationError) || diagnosisValidationErrors.length > 0}
-              validationErrors={diagnosisValidationErrors}
+              orderValidationError={orderValidationError}
+              validationErrors={rowDiagnosisValidationErrors}
               selectedCodeSystem={selectedCodeSystem}
               onChange={(diagnosis) => onRowUpdate(rowConfig.id, { diagnosis })}
               {...typeaheadProps}
@@ -202,8 +253,8 @@ export function UeDiagnosisWithTextList({
               label={config.textLabel}
               limit={config.textLimit}
               disabled={disabled}
-              compactSpacing={diagnosisValidationErrors.length > 0}
-              validationErrors={textValidationErrors}
+              compactSpacing={rowDiagnosisValidationErrors.length > 0}
+              validationErrors={rowTextValidationErrors}
               onChange={(text) => onRowUpdate(rowConfig.id, { text })}
             />
           </Row>
