@@ -6,6 +6,7 @@ import {
   fakeCertificateMetaData,
   fakeCertificateValue,
   fakeCheckboxMultipleCodeElement,
+  fakeDiagnosisWithTextListElement,
   fakeDisableSubElementValidation,
   fakeHideValidation,
   fakeHighlightValidation,
@@ -77,6 +78,46 @@ describe('mandatory', () => {
     })
 
     expect(getDecoratedCertificateData(data, metadata, links)['1.1'].mandatory).toBe(false)
+  })
+
+  const diagnosisRow = (id: string, code = '', description = '', text: string | null = null) => ({
+    id,
+    diagnosis: { id: `${id}.diagnos`, terminology: 'ICD_10_SE', code, description },
+    text: { id: `${id}.text`, text },
+  })
+
+  const diagnosisMandatory = (list: ReturnType<typeof diagnosisRow>[]) => {
+    const { data, metadata, links } = fakeCertificate({
+      data: {
+        ...fakeDiagnosisWithTextListElement({
+          id: '58',
+          validation: [
+            fakeMandatoryValidation({
+              questionId: '58',
+              expression: '!empty($diagnos1)',
+            }),
+          ],
+          value: { list },
+        }),
+      },
+    })
+    return getDecoratedCertificateData(data, metadata, links)['58'].mandatory
+  }
+
+  it('Should keep the diagnosis-with-text question mandatory when only a lower row is filled', () => {
+    expect(diagnosisMandatory([diagnosisRow('diagnos1'), diagnosisRow('diagnos2', 'A78', 'Q-feber', 'Vårdcentralen')])).toBe(true)
+  })
+
+  it.each([
+    ['code', diagnosisRow('diagnos1', 'A78')],
+    ['description', diagnosisRow('diagnos1', '', 'Q-feber')],
+    ['text', diagnosisRow('diagnos1', '', '', 'Vårdcentralen')],
+  ])('Should stop displaying mandatory when diagnosis row 1 has %s', (_, row) => {
+    expect(diagnosisMandatory([row, diagnosisRow('diagnos2')])).toBe(false)
+  })
+
+  it('Should display mandatory again when all fields in diagnosis row 1 are cleared', () => {
+    expect(diagnosisMandatory([diagnosisRow('diagnos1'), diagnosisRow('diagnos2')])).toBe(true)
   })
 })
 

@@ -187,6 +187,11 @@ export const getVisibleValidationErrors =
 
     function getParentValidationErrors(el: CertificateDataElement): ValidationError[] {
       const parent = state.ui.uiCertificate.certificate?.data[el.parent]
+
+      if (parent?.config.type !== ConfigTypes.CATEGORY) {
+        return []
+      }
+
       const validationErrors = (parent?.validationErrors ?? []).map((parentValidationError) => ({
         ...parentValidationError,
         text: '',

@@ -173,6 +173,52 @@ describe('getKeyValuePair', () => {
       'underlag[0].typ': 'ARBETSTERAPEUT',
     })
   })
+
+  it.each([
+    ['diagnosis code', { code: 'A78', description: '', text: null }],
+    ['diagnosis description', { code: '', description: 'Q-feber', text: null }],
+    ['diagnosis text', { code: '', description: '', text: 'Vårdcentralen' }],
+  ])('Should treat DIAGNOSIS_WITH_TEXT as non-empty when it has %s', (_, row) => {
+    expect(
+      getKeyValuePair({
+        type: CertificateDataValueType.DIAGNOSIS_WITH_TEXT,
+        id: 'diagnos1',
+        diagnosis: {
+          type: CertificateDataValueType.DIAGNOSIS,
+          id: 'diagnos1.diagnos',
+          terminology: 'ICD_10_SE',
+          code: row.code,
+          description: row.description,
+        },
+        text: {
+          type: CertificateDataValueType.TEXT,
+          id: 'diagnos1.text',
+          text: row.text,
+        },
+      })
+    ).toMatchObject({ diagnos1: expect.any(String) })
+  })
+
+  it('Should treat an empty DIAGNOSIS_WITH_TEXT as empty', () => {
+    expect(
+      getKeyValuePair({
+        type: CertificateDataValueType.DIAGNOSIS_WITH_TEXT,
+        id: 'diagnos1',
+        diagnosis: {
+          type: CertificateDataValueType.DIAGNOSIS,
+          id: 'diagnos1.diagnos',
+          terminology: 'ICD_10_SE',
+          code: '',
+          description: '',
+        },
+        text: {
+          type: CertificateDataValueType.TEXT,
+          id: 'diagnos1.text',
+          text: null,
+        },
+      })
+    ).toMatchObject({ diagnos1: null })
+  })
 })
 
 describe('differenceInDays', () => {

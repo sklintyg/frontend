@@ -206,6 +206,29 @@ describe('certificateSelectors', () => {
       expect(getVisibleValidationErrors('category', '')(testStore.getState()).length).toBe(6)
     })
 
+    it('Should not return validation errors from a non-category parent', () => {
+      testStore.dispatch(showValidationErrors())
+      testStore.dispatch(
+        updateCertificate(
+          fakeCertificate({
+            data: {
+              ...fakeTextFieldElement({
+                id: 'parent',
+                validationErrors: [fakeCertificateValidationError({ id: 'parent-error' })],
+              }),
+              ...fakeTextFieldElement({
+                id: 'child',
+                parent: 'parent',
+                validationErrors: [fakeCertificateValidationError({ id: 'child-error' })],
+              }),
+            },
+          })
+        )
+      )
+
+      expect(getVisibleValidationErrors('child', '')(testStore.getState())).toMatchObject([{ id: 'child-error' }])
+    })
+
     it('Should return deep parent validation errors', () => {
       testStore.dispatch(showValidationErrors())
       testStore.dispatch(

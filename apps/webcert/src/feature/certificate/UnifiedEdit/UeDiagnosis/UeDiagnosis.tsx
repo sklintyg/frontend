@@ -40,6 +40,7 @@ export function UeDiagnosis({
   disabled,
   selectedCodeSystem,
   hasValidationError,
+  orderValidationError = false,
   validationErrors,
   onChange,
   suggestions,
@@ -53,6 +54,7 @@ export function UeDiagnosis({
   disabled: boolean
   selectedCodeSystem: string
   hasValidationError: boolean
+  orderValidationError?: boolean
   validationErrors: ValidationError[]
   onChange: (value: ValueDiagnosis) => void
 } & ReturnType<typeof useDiagnosisTypeahead>) {
@@ -89,7 +91,7 @@ export function UeDiagnosis({
           placeholder="Kod"
           data-testid={`${id}-code`}
           disabled={disabled}
-          hasValidationError={hasValidationError}
+          hasValidationError={hasValidationError || (orderValidationError && code.trim() === '')}
           onSuggestionSelected={onDiagnosisSelected}
           value={code}
           onChange={(event) => {
@@ -107,7 +109,7 @@ export function UeDiagnosis({
             placeholder="Diagnos"
             data-testid={`${id}-diagnos`}
             disabled={disabled}
-            hasValidationError={hasValidationError}
+            hasValidationError={hasValidationError || (orderValidationError && description.trim() === '')}
             onSuggestionSelected={onDiagnosisSelected}
             value={description}
             onChange={(event) => {

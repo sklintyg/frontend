@@ -38,7 +38,7 @@ export const UvDiagnosisWithTextList = ({ value, config }: { value: ValueDiagnos
           <TableRow key={id}>
             <TableCell style={{ minWidth: '6rem' }}>{diagnosis.code}</TableCell>
             <TableCell>{diagnosis.description}</TableCell>
-            <TableCell>{text.text}</TableCell>
+            <TableCell style={{ overflowWrap: 'anywhere' }}>{text.text}</TableCell>
           </TableRow>
         ))}
       </TableBody>

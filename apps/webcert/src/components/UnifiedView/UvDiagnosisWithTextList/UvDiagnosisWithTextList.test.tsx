@@ -50,6 +50,13 @@ it('renders code, description and text of an answered row in that order', () => 
   ).toEqual(['M545', 'Ländryggssmärta', '2024, vårdcentralen Solna'])
 })
 
+it('allows long words in the text column to wrap', () => {
+  renderComponent(createQuestion([row('diagnos1', 'M545', 'Ländryggssmärta', 'a'.repeat(200))]))
+  const textCell = screen.getAllByRole('cell')[2]
+
+  expect(textCell).toHaveStyle({ overflowWrap: 'anywhere' })
+})
+
 it('renders no table row for an unanswered row', () => {
   renderComponent(
     createQuestion([
