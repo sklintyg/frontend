@@ -12,6 +12,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import './index.css'
 import { router } from './router'
 import { persistor, store } from './store/store'
+import { syncDarkMode } from './utils/darkMode'
 
 // Rehydrate dark mode preference before first render
 if (import.meta.env.MODE === 'development' && import.meta.env.VITE_USE_MOCKS === 'true') {
@@ -19,20 +20,7 @@ if (import.meta.env.MODE === 'development' && import.meta.env.VITE_USE_MOCKS ===
   worker.start()
 }
 
-const applyDarkMode = (darkMode: boolean) => {
-  document.body.classList.toggle('ids--dark', darkMode)
-  document.body.classList.toggle('ids--light', !darkMode)
-}
-
-applyDarkMode(window.matchMedia('(prefers-color-scheme: dark)').matches)
-
-store.subscribe(() => {
-  applyDarkMode(store.getState().settings.darkMode)
-})
-
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-  store.dispatch({ type: 'settings/updateDarkMode', payload: e.matches })
-})
+syncDarkMode(store)
 
 setDefaultOptions({ locale: sv })
 
