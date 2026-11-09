@@ -1,8 +1,7 @@
-import { DialogPortalProvider, GlobalAlert, PriorityEnum } from '@frontend/components'
+import { BannerMessage, DialogPortalProvider, GlobalAlert } from '@frontend/components'
 import { IDSSpinner } from '@inera/ids-react'
 import { Outlet } from 'react-router-dom'
 import { useSession } from '../../hooks/useSession'
-import { BannerPriority } from '../../schemas'
 import { useGetConfigQuery } from '../../store/api'
 import { PageContainer } from '../PageContainer/PageContainer'
 import { PageHero } from '../PageHero/PageHero'
@@ -18,13 +17,6 @@ export function Layout() {
   const { user, error, isLoading, isError } = useSession()
   const { data: config } = useGetConfigQuery()
 
-  const getAlertPriority = (priority: BannerPriority) => {
-    if (priority === BannerPriority.HIGH) {
-      return PriorityEnum.ERROR
-    }
-    return priority === BannerPriority.MEDIUM ? PriorityEnum.OBSERVE : PriorityEnum.INFO
-  }
-
   return (
     <DialogPortalProvider>
       <CookieDialog />
@@ -37,8 +29,8 @@ export function Layout() {
             {config &&
               config.banners.length > 0 &&
               config.banners.map((banner) => (
-                <GlobalAlert key={banner.id} priority={getAlertPriority(banner.priority)}>
-                  {banner.message}
+                <GlobalAlert key={banner.id}>
+                  <BannerMessage html={banner.message} />
                 </GlobalAlert>
               ))}
             {user && (

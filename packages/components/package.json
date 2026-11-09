@@ -37,6 +37,8 @@
     "@inera/ids-design": "^9.0.0",
     "@inera/ids-react": "^9.0.0",
     "@internationalized/date": "^3.2.0",
+    "dompurify": "^3.4.17",
+    "html-react-parser": "^4.2.2",
     "react": "^18.3.1",
     "react-aria": "^3.25.0",
     "react-dom": "^18.3.1",
