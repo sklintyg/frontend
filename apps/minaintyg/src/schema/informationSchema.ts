@@ -1,12 +1,6 @@
 import { z } from 'zod'
 
-export enum BannerPriority {
-  INFO = 'INFO',
-  OBSERVE = 'OBSERVE',
-  ERROR = 'ERROR',
-}
-
-const bannerTypeEnum = z.nativeEnum(BannerPriority)
+const bannerTypeEnum = z.enum(['INFO', 'OBSERVE', 'ERROR'])
 
 const bannerSchema = z.object({
   content: z.string(),

@@ -1,4 +1,5 @@
 export * from './AppLink/AppLink'
+export * from './BannerMessage/BannerMessage'
 export * from './Button/Button'
 export * from './Calendar/Calendar'
 export * from './Calendar/CalendarButton'

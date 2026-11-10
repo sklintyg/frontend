@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react'
-import { GlobalAlert, PriorityEnum } from './GlobalAlert'
+import { GlobalAlert } from './GlobalAlert'
 
-const renderComponent = (priority: PriorityEnum) => {
+const renderComponent = () => {
   render(
-    <GlobalAlert priority={priority}>
+    <GlobalAlert>
       <p>Children</p>
     </GlobalAlert>
   )
@@ -11,31 +11,16 @@ const renderComponent = (priority: PriorityEnum) => {
 
 describe('GlobalAlert', () => {
   it('should render without issues', () => {
-    expect(() => renderComponent(PriorityEnum.OBSERVE)).not.toThrow()
+    expect(() => renderComponent()).not.toThrow()
   })
 
   it('should render alert', () => {
-    renderComponent(PriorityEnum.OBSERVE)
+    renderComponent()
     expect(screen.getByRole('alert')).toBeInTheDocument()
   })
 
   it('should render children', () => {
-    renderComponent(PriorityEnum.OBSERVE)
+    renderComponent()
     expect(screen.getByText('Children')).toBeInTheDocument()
-  })
-
-  it('should render info icon', () => {
-    renderComponent(PriorityEnum.INFO)
-    expect(screen.getByTestId('LOW_ICON')).toBeInTheDocument()
-  })
-
-  it('should render observe icon', () => {
-    renderComponent(PriorityEnum.OBSERVE)
-    expect(screen.getByTestId('MEDIUM_ICON')).toBeInTheDocument()
-  })
-
-  it('should render error icon', () => {
-    renderComponent(PriorityEnum.ERROR)
-    expect(screen.getByTestId('HIGH_ICON')).toBeInTheDocument()
   })
 })
