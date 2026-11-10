@@ -4,7 +4,7 @@ import { rest } from 'msw'
 import { Provider } from 'react-redux'
 import { Route, RouterProvider, createMemoryRouter, createRoutesFromElements } from 'react-router-dom'
 import { server } from '../../mocks/server'
-import { BannerPriority, configSchema } from '../../schemas'
+import { configSchema } from '../../schemas'
 import { api } from '../../store/api'
 import { store } from '../../store/store'
 import { Layout } from './Layout'
@@ -29,7 +29,7 @@ it('Should display a link in a banner as a link', async () => {
     displayTo: '2026-11-30T08:00:00',
     id: 'banner-1',
     message: 'Läs mer <a href="https://example.com/drift" target="_blank" rel="noopener noreferrer">här</a>',
-    priority: BannerPriority.MEDIUM,
+    priority: 'MEDEL' as const,
   }
   server.use(rest.get('/api/config', (_, res, ctx) => res(ctx.status(200), ctx.json(fakerFromSchema(configSchema)({ banners: [banner] })))))
   render(

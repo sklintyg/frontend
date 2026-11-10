@@ -3,7 +3,6 @@ import { rest } from 'msw'
 import { Provider } from 'react-redux'
 import { createMemoryRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
 import { server } from '../../mocks/server'
-import { BannerPriority } from '../../schema/informationSchema'
 import { endSession, startSession } from '../../store/slice/session.slice'
 import { store } from '../../store/store'
 import { Layout } from './Layout'
@@ -45,7 +44,7 @@ it('Should display a link in a banner as a link', async () => {
       res(
         ctx.status(200),
         ctx.json({
-          banners: [{ type: BannerPriority.OBSERVE, content: 'Läs mer <a href="https://example.com/drift" target="_blank">här</a>' }],
+          banners: [{ type: 'OBSERVE', content: 'Läs mer <a href="https://example.com/drift" target="_blank">här</a>' }],
           links: [],
         })
       )
