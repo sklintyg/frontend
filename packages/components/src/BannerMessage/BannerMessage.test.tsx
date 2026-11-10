@@ -63,7 +63,18 @@ describe('BannerMessage', () => {
     }
   )
 
+  it('keeps bold, italic and underline without attributes', () => {
+    const html =
+      '<b style="color: red">fet</b> <i class="x">kursiv</i> <u onclick="alert(1)">under</u> <strong>stark</strong> <em>betonad</em>'
+    expect(renderComponent(html).innerHTML).toBe('<b>fet</b> <i>kursiv</i> <u>under</u> <strong>stark</strong> <em>betonad</em>')
+  })
+
+  it('keeps formatting inside a link', () => {
+    renderComponent('<a href="https://example.com"><b>Viktig</b> länk</a>')
+    expect(screen.getByRole('link').innerHTML).toContain('<b>Viktig</b> länk')
+  })
+
   it('removes other tags but keeps their text', () => {
-    expect(renderComponent('<div>Första</div><p>Andra <b>fet</b></p>').innerHTML).toBe('FörstaAndra fet')
+    expect(renderComponent('<div>Första</div><p>Andra <span style="font-size: 40px">stor</span></p>').innerHTML).toBe('FörstaAndra stor')
   })
 })

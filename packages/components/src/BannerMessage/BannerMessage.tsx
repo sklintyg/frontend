@@ -5,7 +5,7 @@ import { AppLink } from '../AppLink/AppLink'
 
 const sanitize = (html: string) =>
   DOMPurify.sanitize(html, {
-    ALLOWED_TAGS: ['a', 'br'],
+    ALLOWED_TAGS: ['a', 'br', 'b', 'strong', 'i', 'em', 'u'],
     ALLOWED_ATTR: ['href'],
     ALLOWED_URI_REGEXP: /^(?:https?|mailto):/i,
   })
